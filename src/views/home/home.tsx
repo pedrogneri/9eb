@@ -1,10 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { Row } from '../../components';
-import { WORDS } from '../../lib/words';
+import { findWord } from '../../lib/words';
 import * as S from './home.style';
 
 const ROWS = 6;
-const words = WORDS.split(',');
 
 const Home = () => {
   const [rowIndex, setRowIndex] = useState(0);
@@ -12,7 +11,7 @@ const Home = () => {
 
   const [tries, setTries] = useState(Array(ROWS).fill(''));
 
-  const changeTry = useCallback((newValue: string) => {
+  const changeTryValue = useCallback((newValue: string) => {
     setTries(v => {
       const newTries = [...v];
       newTries[rowIndex] = newValue;
@@ -29,7 +28,7 @@ const Home = () => {
       if (isCharKey && value.length < 5) {
         setValue(v => {
           const newValue = v + key;
-          changeTry(newValue);
+          changeTryValue(newValue);
           return newValue;
         })
       }
@@ -37,17 +36,16 @@ const Home = () => {
       if (key === 'Backspace') {
         setValue(v => {
           const newValue = v.slice(0, -1);
-          changeTry(newValue);
+          changeTryValue(newValue);
           return newValue;
         })
       }
 
       if (key === 'Enter' && rowIndex < ROWS - 1) {
-        if (words.find(v => {
-          const normalized = v.normalize('NFD').replace(/[\u0300-\u036f]/g, "")
-          return normalized === value
-        })) {
+        const word = findWord(value);
+        if (word) {
           setValue('');
+          changeTryValue(word);
           setRowIndex(v => v + 1)
         } 
       }
@@ -58,7 +56,7 @@ const Home = () => {
     return (): void => {
       document.removeEventListener('keydown', onKeyDown);
     };
-  }, [value.length, rowIndex, value, changeTry])
+  }, [value.length, rowIndex, value, changeTryValue])
 
   return (
     <S.Container>
