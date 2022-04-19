@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { Row } from '../../components';
-import { findWord } from '../../lib/words';
+import { findWord, getRandomWord } from '../../lib/words';
 import * as S from './home.style';
 
 const ROWS = 6;
+const WORD = getRandomWord();
 
 const Home = () => {
   const [rowIndex, setRowIndex] = useState(0);
@@ -66,6 +67,7 @@ const Home = () => {
             key={index.toString()}
             value={tries[index]}
             isSelected={index === rowIndex}
+            word={WORD}
           />
         ))}
       </S.Board>
