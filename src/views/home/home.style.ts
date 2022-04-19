@@ -12,4 +12,7 @@ export const Board = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  padding: 32px;
+  background-color: #88748b;
+  border-radius: 10px;
 `;
