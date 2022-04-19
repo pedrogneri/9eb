@@ -13,7 +13,7 @@ export const Container = styled.div<SelectedProps>`
     if ($state === 'contain') {
       color = '#e9eb87'
     } else if ($state === 'correct') {
-      color = '#718355'
+      color = '#99eebb'
     }
 
     return css`
@@ -27,9 +27,8 @@ export const Container = styled.div<SelectedProps>`
       border-radius: 8px;
       font-weight: bold;
       color: #392a43;
-      box-sizing: border-box;
-      border: 2px solid;
-      border-color: ${$isSelected ? '#000' : 'transparent'}
+      border: 3px solid;
+      border-color: ${$isSelected ? '#392a43' : 'transparent'}
     `;
   }}
 `
