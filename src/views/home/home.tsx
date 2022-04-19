@@ -1,8 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { Row } from '../../components';
+import { WORDS } from '../../lib/words';
 import * as S from './home.style';
 
 const ROWS = 6;
+const words = WORDS.split(',');
 
 const Home = () => {
   const [rowIndex, setRowIndex] = useState(0);
@@ -41,8 +43,13 @@ const Home = () => {
       }
 
       if (key === 'Enter' && rowIndex < ROWS - 1) {
-        setValue('');
-        setRowIndex(v => v + 1)
+        if (words.find(v => {
+          const normalized = v.normalize('NFD').replace(/[\u0300-\u036f]/g, "")
+          return normalized === value
+        })) {
+          setValue('');
+          setRowIndex(v => v + 1)
+        } 
       }
     }
 
