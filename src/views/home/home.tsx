@@ -6,8 +6,8 @@ const Home = () => {
   return (
     <S.Container>
       <S.Board>
-        {[...Array(6)].map(() => (
-          <Row />
+        {[...Array(6)].map((_, index) => (
+          <Row key={index.toString()} />
         ))}
       </S.Board>
     </S.Container>

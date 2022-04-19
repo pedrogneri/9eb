@@ -1,8 +1,12 @@
 import React from 'react'
 import * as S from './letter.style';
 
-const Letter = () => {
-  return <S.Container>T</S.Container>
+type Props = {
+  value: string;
+}
+
+const Letter = ({ value }: Props) => {
+  return <S.Container>{value.toUpperCase()}</S.Container>
 }
 
 export default Letter;
