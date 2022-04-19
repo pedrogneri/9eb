@@ -3,10 +3,17 @@ import * as S from './letter.style';
 
 type Props = {
   value: string;
+  isSelected: boolean;
 }
 
-const Letter = ({ value }: Props) => {
-  return <S.Container>{value.toUpperCase()}</S.Container>
+const Letter = ({ value, isSelected }: Props) => {
+  return (
+    <S.Container
+      $isSelected={isSelected}
+    >
+      {value.toUpperCase()}
+    </S.Container>
+  )
 }
 
 export default Letter;

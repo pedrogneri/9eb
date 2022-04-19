@@ -2,13 +2,19 @@ import React, { useEffect, useState } from 'react'
 import { Letter } from '../letter';
 import * as S from './row.style';
 
-const Row = () => {
+type Props = {
+  isSelected: boolean;
+}
+
+const Row = ({ isSelected }: Props) => {
   const [value, setValue] = useState('');
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       const { key } = e;
       const isCharKey = key.match("[a-zA-Z]*\\b") && key.length === 1;
+
+      if (!isSelected) return;
 
       if (isCharKey && value.length < 5) {
         setValue(v => v + key)
@@ -24,12 +30,16 @@ const Row = () => {
     return (): void => {
       document.removeEventListener('keydown', onKeyDown);
     };
-  }, [value.length])
+  }, [value.length, isSelected])
 
   return (
     <S.Container>
       {[...Array(5)].map((_, index) => (
-        <Letter key={index.toString()} value={value[index] || ''} />
+        <Letter 
+          key={index.toString()}
+          value={value[index] || ''} 
+          isSelected={isSelected} 
+        />
       ))}
     </S.Container>
   )

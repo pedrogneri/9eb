@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
+type SelectedProps = {
+  $isSelected: boolean;
+}
+
+export const Container = styled.div<SelectedProps>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -10,4 +14,6 @@ export const Container = styled.div`
   height: 48px;
   border-radius: 8px;
   font-weight: bold;
+  border: 2px solid;
+  border-color: ${({  $isSelected }) =>  $isSelected ? '#333' : 'transparent'}
 `
