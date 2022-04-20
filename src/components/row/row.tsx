@@ -8,9 +8,10 @@ type Props = {
   word: string;
   input: string;
   isSelected: boolean;
+  filled?: boolean;
 }
 
-const Row = ({ word, input, isSelected }: Props) => {
+const Row = ({ word, input, isSelected, filled = false }: Props) => {
   const getLetterState = (index: number): State => {
     const wordLetters = normalizeWord(word).split('');
     const inputLetters = normalizeWord(input).split('');
@@ -18,7 +19,7 @@ const Row = ({ word, input, isSelected }: Props) => {
     const wordChar = wordLetters[index];
     const inputChar = inputLetters[index];
 
-    if (isSelected) {
+    if (isSelected && !filled) {
       return 'default'
     }
 

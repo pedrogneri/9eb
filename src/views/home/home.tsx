@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Row } from '../../components';
+import { Row, Keyboard } from '../../components';
 import { findWord, getRandomWord } from '../../lib/words';
 import * as S from './home.style';
 
@@ -11,6 +11,7 @@ const Home = () => {
   const [value, setValue] = useState('');
 
   const [tries, setTries] = useState(Array(ROWS).fill(''));
+  const [endGame, setIsEndGame] = useState(false);
 
   const changeTryValue = useCallback((newValue: string) => {
     setTries(v => {
@@ -26,28 +27,27 @@ const Home = () => {
       const { key } = e;
       const isCharKey = key.match("[a-zA-Z]*\\b") && key.length === 1;
 
+      if (endGame) return;
+
       if (isCharKey && value.length < 5) {
-        setValue(v => {
-          const newValue = v + key;
-          changeTryValue(newValue);
-          return newValue;
-        })
+        setValue(v => v + key);
       }
 
       if (key === 'Backspace') {
-        setValue(v => {
-          const newValue = v.slice(0, -1);
-          changeTryValue(newValue);
-          return newValue;
-        })
+        setValue(v => v.slice(0, -1));
       }
 
-      if (key === 'Enter' && rowIndex < ROWS - 1) {
-        const word = findWord(value);
-        if (word) {
+      if (key === 'Enter') {
+        const wordOnList = findWord(value);
+
+        if (wordOnList) {
+          const correctWord = wordOnList === WORD;
+          const isEndGame = correctWord || rowIndex === ROWS - 1;
+          setIsEndGame(isEndGame);
+
           setValue('');
-          changeTryValue(word);
-          setRowIndex(v => v + 1)
+          changeTryValue(wordOnList);
+          setRowIndex(v => isEndGame ? v : v + 1)
         } 
       }
     }
@@ -57,7 +57,7 @@ const Home = () => {
     return (): void => {
       document.removeEventListener('keydown', onKeyDown);
     };
-  }, [value.length, rowIndex, value, changeTryValue])
+  }, [value.length, rowIndex, value, changeTryValue, endGame])
 
   return (
     <S.Container>
@@ -65,12 +65,14 @@ const Home = () => {
         {[...Array(ROWS)].map((_, index) => (
           <Row
             key={index.toString()}
-            value={tries[index]}
+            input={!tries[index] && index === rowIndex ? value : tries[index]}
             isSelected={index === rowIndex}
             word={WORD}
+            filled={index < rowIndex || (index === rowIndex && endGame)}
           />
         ))}
       </S.Board>
+      <Keyboard word={WORD} tries={tries} />
     </S.Container>
   )
 }

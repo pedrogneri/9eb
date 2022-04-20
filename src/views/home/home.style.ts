@@ -5,6 +5,7 @@ export const Container = styled.div`
   justify-content: center;
   align-items: center;
   height: 100%;
+  flex-direction: column;
 `
 
 export const Board = styled.div`
