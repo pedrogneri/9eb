@@ -35,8 +35,12 @@ const Keyboard = ({
         return;
       }
 
-      if (normalizedWord.includes(letter) && normalizedInput.includes(letter)) {
-        state = 'contain';
+      if (normalizedInput.includes(letter)) {
+        if (normalizedWord.includes(letter)) {
+          state = 'contain';
+        } else {
+          state = 'incorrect';
+        }
       }
 
       normalizedInput.split('').forEach((v, index) => {

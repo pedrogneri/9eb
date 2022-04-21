@@ -14,6 +14,8 @@ export const Container = styled.div<SelectedProps>`
       color = '#e9eb87'
     } else if ($state === 'correct') {
       color = '#99eebb'
+    } else if ($state === 'incorrect') {
+      color = 'rgba(238, 238, 238, 0.6)' 
     }
 
     return css`
@@ -26,7 +28,7 @@ export const Container = styled.div<SelectedProps>`
       height: 48px;
       border-radius: 8px;
       font-weight: bold;
-      color: #392a43;
+      color: ${$state === 'incorrect' ? 'rgba(57, 42, 67, 0.6)' : '#392a43'};
       border: 3px solid;
       border-color: ${$isSelected ? '#392a43' : 'transparent'}
     `;

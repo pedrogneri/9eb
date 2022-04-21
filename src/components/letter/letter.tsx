@@ -1,7 +1,7 @@
 import React from 'react'
 import * as S from './letter.style';
 
-export type State = 'correct' | 'contain' | 'default';
+export type State = 'correct' | 'contain' | 'incorrect' | 'default';
 
 type Props = {
   value: string;
