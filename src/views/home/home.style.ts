@@ -27,7 +27,12 @@ export const BoardContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: inherit;
+  margin-bottom: 2em;
+
+  @media(max-width: 800px) {
+    height: inherit;
+    margin-bottom: 0;
+  }
 `;
 
 export const KeyboardContainer = styled.div`

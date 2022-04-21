@@ -58,15 +58,13 @@ const Keyboard = ({
       {entries.map((letters) => (
         <S.Row>
           {letters.map((letter) => (
-            <S.Row>
-              <div onClick={() => onChange(letter.toLowerCase())}>
-                <S.Key
-                  value={letter}
-                  state={getLetterState(letter.toLowerCase())}
-                  isSelected={false}
-                />
-              </div>
-            </S.Row>
+            <div onClick={() => onChange(letter.toLowerCase())}>
+              <S.Key
+                value={letter}
+                state={getLetterState(letter.toLowerCase())}
+                isSelected={false}
+              />
+            </div>
           ))}
         </S.Row>
       ))}
