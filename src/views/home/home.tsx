@@ -67,17 +67,19 @@ const Home = () => {
 
   return (
     <S.Container>
-      <S.Board>
-        {[...Array(ROWS)].map((_, index) => (
-          <Row
-            key={index.toString()}
-            input={!tries[index] && index === rowIndex ? value : tries[index]}
-            isSelected={index === rowIndex}
-            word={WORD}
-            filled={index < rowIndex || (index === rowIndex && endGame)}
-          />
-        ))}
-      </S.Board>
+      <S.BoardContainer>
+        <S.Board>
+          {[...Array(ROWS)].map((_, index) => (
+            <Row
+              key={index.toString()}
+              input={!tries[index] && index === rowIndex ? value : tries[index]}
+              isSelected={index === rowIndex}
+              word={WORD}
+              filled={index < rowIndex || (index === rowIndex && endGame)}
+            />
+          ))}
+        </S.Board>
+      </S.BoardContainer>
       <Keyboard 
         word={WORD} 
         tries={tries} 

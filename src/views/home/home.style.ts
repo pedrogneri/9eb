@@ -13,12 +13,25 @@ export const Board = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  padding: 32px;
+  padding: 2em;
   background-color: #88748b;
   border-radius: 10px;
-  margin-bottom: 32px;
 
   @media(max-width: 800px) {
     padding: 12px;
+    margin: 0;
   }
+`;
+
+export const BoardContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: inherit;
+`;
+
+export const KeyboardContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;

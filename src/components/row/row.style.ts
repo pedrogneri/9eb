@@ -11,9 +11,9 @@ export const StyledLetter = styled(Letter)`
   margin: 4px;
 
   @media(max-width: 800px) {
-    width: 36px;
-    height: 36px;
+    width: 48px;
+    height: 48px;
     font-size: 32px;
-    border-width: 2px;
+    margin: 3px;
   }
 `;

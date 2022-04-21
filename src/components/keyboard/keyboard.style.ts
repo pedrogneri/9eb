@@ -6,6 +6,7 @@ export const Container = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
+  padding-bottom: 12px;
 `;
 
 export const Row = styled.div`
@@ -26,7 +27,7 @@ export const Key = styled(Letter)`
     width: 28px;
     height: 32px;
     font-size: 20px;
-    margin: 3px;
+    margin: 2px;
   }
 `;
 
