@@ -1,6 +1,5 @@
 import React from 'react'
 import { normalizeWord } from '../../lib/words';
-import { Letter } from '../letter';
 import { State } from '../letter/letter';
 import * as S from './row.style';
 
@@ -60,7 +59,7 @@ const Row = ({ word, input, isSelected, filled = false }: Props) => {
   return (
     <S.Container>
       {[...Array(5)].map((_, index) => (
-        <Letter
+        <S.StyledLetter
           key={index.toString()}
           value={input[index] || ''} 
           isSelected={isSelected}

@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Letter } from '../letter';
 import { MdThumbUp, MdBackspace } from 'react-icons/md';
 
@@ -18,6 +18,16 @@ export const Row = styled.div`
 export const Key = styled(Letter)`
   margin: 4px;
   cursor: pointer;
+
+  width: 48px;
+  height: 56px;
+
+  @media(max-width: 800px) {
+    width: 28px;
+    height: 32px;
+    font-size: 20px;
+    margin: 3px;
+  }
 `;
 
 export const SpecialKey = styled.div`
@@ -30,16 +40,30 @@ export const SpecialKey = styled.div`
   border-radius: 8px;
   margin: 4px;
   cursor: pointer;
+
+  @media(max-width: 800px) {
+    width: 100px;
+    height: 32px;
+    font-size: 16px;
+    margin: 3px;
+  }
+`;
+
+const iconStyle = css`
+  height: 48px;
+  width: 48px;
+  color: #392a43;
+
+  @media(max-width: 800px) {
+    width: 32px;
+    height: 32px;
+  }
 `;
 
 export const Like = styled(MdThumbUp)`
-  height: 48px;
-  width: 48px;
-  color: #392a43;
+  ${iconStyle}
 `;
 
 export const Delete = styled(MdBackspace)`
-  height: 48px;
-  width: 48px;
-  color: #392a43;
+  ${iconStyle}
 `;
