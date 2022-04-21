@@ -57,7 +57,7 @@ const Home = () => {
     return (): void => {
       document.removeEventListener('keydown', onKeyDown);
     };
-  }, [value.length, rowIndex, value, changeTryValue, endGame])
+  }, [changeTryValue, endGame, rowIndex, value])
 
   return (
     <S.Container>
@@ -72,7 +72,11 @@ const Home = () => {
           />
         ))}
       </S.Board>
-      <Keyboard word={WORD} tries={tries} />
+      <Keyboard word={WORD} tries={tries} onChange={(key: string) => {
+        if (value.length < 5) {
+          setValue(v => v + key);
+        }
+      }} />
     </S.Container>
   )
 }

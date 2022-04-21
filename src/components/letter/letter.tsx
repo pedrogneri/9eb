@@ -7,13 +7,15 @@ type Props = {
   value: string;
   isSelected: boolean;
   state?: State;
+  className?: string;
 }
 
 const Letter = ({
-  value, isSelected, state = 'default'
+  className, value, isSelected, state = 'default'
 }: Props) => {
   return (
     <S.Container
+      className={className}
       $state={state}
       $isSelected={isSelected}
     >

@@ -16,4 +16,5 @@ export const Board = styled.div`
   padding: 32px;
   background-color: #88748b;
   border-radius: 10px;
+  margin: 32px;
 `;

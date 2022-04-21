@@ -1,11 +1,12 @@
 import React from 'react'
-import { Letter } from '../letter';
+import { normalizeWord } from '../../lib/words';
 import { State } from '../letter/letter';
 import * as S from './keyboard.style';
 
 type Props = {
   word: string;
   tries: string[];
+  onChange: Function;
 }
 
 const entries = [
@@ -14,21 +15,24 @@ const entries = [
   ['Z', 'X', 'C', 'V', 'B', 'N', 'M']
 ];
 
-const Keyboard = ({ word, tries }: Props) => {
+const Keyboard = ({ word, tries, onChange }: Props) => {
   const getLetterState = (letter: string) => {
     let state: State = 'default';
+    const normalizedWord = normalizeWord(word);
 
     tries.forEach((input) => {
+      const normalizedInput = normalizeWord(input);
+
       if (state === 'correct') {
         return;
       }
 
-      if (word.includes(letter) && input.includes(letter)) {
+      if (normalizedWord.includes(letter) && normalizedInput.includes(letter)) {
         state = 'contain';
       }
 
-      input.split('').forEach((v, index) => {
-        if (v === letter && v === word[index]) {
+      normalizedInput.split('').forEach((v, index) => {
+        if (v === letter && v === normalizedWord[index]) {
           state = 'correct'
         }
       });
@@ -43,15 +47,25 @@ const Keyboard = ({ word, tries }: Props) => {
         <S.Row>
           {letters.map((letter) => (
             <S.Row>
-              <Letter
-                value={letter}
-                state={getLetterState(letter.toLowerCase())}
-                isSelected={false}
-              />
+              <div onClick={() => onChange(letter.toLowerCase())}>
+                <S.Key
+                  value={letter}
+                  state={getLetterState(letter.toLowerCase())}
+                  isSelected={false}
+                />
+              </div>
             </S.Row>
           ))}
         </S.Row>
       ))}
+      <S.Row>
+        <S.SpecialKey>
+          <S.Like />
+        </S.SpecialKey>
+        <S.SpecialKey>
+          <S.Delete />    
+        </S.SpecialKey>
+      </S.Row>
     </S.Container>
   )
 }
