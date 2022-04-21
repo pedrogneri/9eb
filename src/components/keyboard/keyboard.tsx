@@ -7,6 +7,8 @@ type Props = {
   word: string;
   tries: string[];
   onChange: Function;
+  onConfirm: Function;
+  onDelete: Function;
 }
 
 const entries = [
@@ -15,7 +17,13 @@ const entries = [
   ['Z', 'X', 'C', 'V', 'B', 'N', 'M']
 ];
 
-const Keyboard = ({ word, tries, onChange }: Props) => {
+const Keyboard = ({
+  word,
+  tries,
+  onChange,
+  onConfirm,
+  onDelete,
+}: Props) => {
   const getLetterState = (letter: string) => {
     let state: State = 'default';
     const normalizedWord = normalizeWord(word);
@@ -59,11 +67,11 @@ const Keyboard = ({ word, tries, onChange }: Props) => {
         </S.Row>
       ))}
       <S.Row>
-        <S.SpecialKey>
-          <S.Like />
+        <S.SpecialKey onClick={() => onDelete()}>
+          <S.Delete /> 
         </S.SpecialKey>
-        <S.SpecialKey>
-          <S.Delete />    
+        <S.SpecialKey onClick={() => onConfirm()}>
+          <S.Like />
         </S.SpecialKey>
       </S.Row>
     </S.Container>

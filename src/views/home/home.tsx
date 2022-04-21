@@ -22,6 +22,22 @@ const Home = () => {
     })
   }, [rowIndex])
 
+  const onDelete = () => setValue(v => v.slice(0, -1));
+
+  const onConfirm = useCallback(() => {
+    const wordOnList = findWord(value);
+
+    if (wordOnList) {
+      const correctWord = wordOnList === WORD;
+      const isEndGame = correctWord || rowIndex === ROWS - 1;
+      setIsEndGame(isEndGame);
+
+      setValue('');
+      changeTryValue(wordOnList);
+      setRowIndex(v => isEndGame ? v : v + 1)
+    } 
+  }, [changeTryValue, rowIndex, value]);
+
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       const { key } = e;
@@ -34,21 +50,11 @@ const Home = () => {
       }
 
       if (key === 'Backspace') {
-        setValue(v => v.slice(0, -1));
+        onDelete()
       }
 
       if (key === 'Enter') {
-        const wordOnList = findWord(value);
-
-        if (wordOnList) {
-          const correctWord = wordOnList === WORD;
-          const isEndGame = correctWord || rowIndex === ROWS - 1;
-          setIsEndGame(isEndGame);
-
-          setValue('');
-          changeTryValue(wordOnList);
-          setRowIndex(v => isEndGame ? v : v + 1)
-        } 
+        onConfirm()
       }
     }
 
@@ -57,7 +63,7 @@ const Home = () => {
     return (): void => {
       document.removeEventListener('keydown', onKeyDown);
     };
-  }, [changeTryValue, endGame, rowIndex, value])
+  }, [endGame, onConfirm, value.length])
 
   return (
     <S.Container>
@@ -72,11 +78,17 @@ const Home = () => {
           />
         ))}
       </S.Board>
-      <Keyboard word={WORD} tries={tries} onChange={(key: string) => {
-        if (value.length < 5) {
-          setValue(v => v + key);
-        }
-      }} />
+      <Keyboard 
+        word={WORD} 
+        tries={tries} 
+        onChange={(key: string) => {
+          if (value.length < 5) {
+            setValue(v => v + key);
+          }
+        }}
+        onConfirm={onConfirm}
+        onDelete={onDelete}
+      />
     </S.Container>
   )
 }

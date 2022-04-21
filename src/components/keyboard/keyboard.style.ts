@@ -29,15 +29,16 @@ export const SpecialKey = styled.div`
   background-color: #eee;
   border-radius: 8px;
   margin: 4px;
+  cursor: pointer;
 `;
 
-export const Delete = styled(MdThumbUp)`
+export const Like = styled(MdThumbUp)`
   height: 48px;
   width: 48px;
   color: #392a43;
 `;
 
-export const Like = styled(MdBackspace)`
+export const Delete = styled(MdBackspace)`
   height: 48px;
   width: 48px;
   color: #392a43;
