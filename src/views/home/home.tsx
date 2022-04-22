@@ -1,17 +1,20 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { Row, Keyboard } from '../../components';
 import { findWord, getRandomWord } from '../../lib/words';
+
 import * as S from './home.style';
 
 const ROWS = 6;
-const WORD = getRandomWord();
+
+export type GameState = 'win' | 'lose' | 'playing';
 
 const Home = () => {
   const [rowIndex, setRowIndex] = useState(0);
   const [value, setValue] = useState('');
 
+  const [correctWord, setCorrectWord] = useState(getRandomWord());
   const [tries, setTries] = useState(Array(ROWS).fill(''));
-  const [endGame, setIsEndGame] = useState(false);
+  const [gameState, setGameState] = useState<GameState>('playing');
 
   const changeTryValue = useCallback((newValue: string) => {
     setTries(v => {
@@ -28,22 +31,27 @@ const Home = () => {
     const wordOnList = findWord(value);
 
     if (wordOnList) {
-      const correctWord = wordOnList === WORD;
-      const isEndGame = correctWord || rowIndex === ROWS - 1;
-      setIsEndGame(isEndGame);
+      const isCorrect = wordOnList === correctWord;
+      const isEndGame = isCorrect || rowIndex === ROWS - 1;
+
+      if (isCorrect) {
+        setGameState('win');
+      } else if (rowIndex === ROWS - 1) {
+        setGameState('lose');
+      }
 
       setValue('');
       changeTryValue(wordOnList);
       setRowIndex(v => isEndGame ? v : v + 1)
     } 
-  }, [changeTryValue, rowIndex, value]);
+  }, [changeTryValue, correctWord, rowIndex, value]);
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       const { key } = e;
       const isCharKey = key.match("[a-zA-Z]*\\b") && key.length === 1;
 
-      if (endGame) return;
+      if (gameState !== 'playing') return;
 
       if (isCharKey && value.length < 5) {
         setValue(v => v + key);
@@ -63,7 +71,16 @@ const Home = () => {
     return (): void => {
       document.removeEventListener('keydown', onKeyDown);
     };
-  }, [endGame, onConfirm, value.length])
+  }, [gameState, onConfirm, value.length])
+
+  const resetGame = () => {
+    setGameState('playing');
+    setTimeout(() => {
+      setCorrectWord(getRandomWord());
+      setTries(Array(ROWS).fill(''));
+      setRowIndex(0);
+    }, 500) 
+  }
 
   return (
     <S.Container>
@@ -74,14 +91,14 @@ const Home = () => {
               key={index.toString()}
               input={!tries[index] && index === rowIndex ? value : tries[index]}
               isSelected={index === rowIndex}
-              word={WORD}
-              filled={index < rowIndex || (index === rowIndex && endGame)}
+              word={correctWord}
+              filled={index < rowIndex || (index === rowIndex && gameState !== 'playing')}
             />
           ))}
         </S.Board>
       </S.BoardContainer>
       <Keyboard 
-        word={WORD} 
+        word={correctWord} 
         tries={tries} 
         onChange={(key: string) => {
           if (value.length < 5) {
@@ -91,6 +108,13 @@ const Home = () => {
         onConfirm={onConfirm}
         onDelete={onDelete}
       />
+      <S.Modal
+        open={gameState !== 'playing'}
+        onClose={resetGame}
+      >
+        <S.Title>{gameState === 'win' ? 'Você ganhou :)' : 'Você perdeu :('}</S.Title>
+        <S.CorrectWord $gameState={gameState}>{correctWord}</S.CorrectWord>
+      </S.Modal>
     </S.Container>
   )
 }
