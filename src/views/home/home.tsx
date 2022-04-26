@@ -70,7 +70,7 @@ const Home = () => {
     setGameState('playing');
     setTimeout(() => {
       setCorrectWord(getRandomWord());
-      setTries(Array(ROWS).fill(''));
+      setTries(Array(ROWS).fill(EMPTY_WORD));
       setRowIndex(0);
     }, 500) 
   };

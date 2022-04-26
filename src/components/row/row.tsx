@@ -15,7 +15,7 @@ type Props = {
 const Row = ({ word, input, isSelected, selectedLetter, onClickLetter, filled = false }: Props) => {
   const getLetterState = (index: number): State => {
     const wordLetters = normalizeWord(word).split('');
-    const inputLetters = normalizeWord(input.join()).split('');
+    const inputLetters = normalizeWord(input.join('')).split('');
 
     const wordChar = wordLetters[index];
     const inputChar = inputLetters[index];
