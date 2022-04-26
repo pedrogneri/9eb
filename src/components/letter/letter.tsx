@@ -9,10 +9,11 @@ type Props = {
   state?: State;
   className?: string;
   isPressed?: boolean;
+  onClick: Function;
 }
 
 const Letter = ({
-  className, value, isSelected, isPressed = false, state = 'default'
+  className, value, isSelected, isPressed = false, state = 'default', onClick
 }: Props) => {
   return (
     <S.Container
@@ -20,6 +21,7 @@ const Letter = ({
       $state={state}
       $isSelected={isSelected}
       $isPressed={isPressed}
+      onClick={isSelected ? () => onClick() : undefined}
     >
       {value.toUpperCase()}
     </S.Container>

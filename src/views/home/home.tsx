@@ -14,6 +14,7 @@ const Home = () => {
   const [rowIndex, setRowIndex] = useState(0);
   const [value, setValue] = useState<string[]>(EMPTY_WORD);
 
+  const [selectedLetter, setSelectedLetter] = useState(0);
   const [correctWord, setCorrectWord] = useState(getRandomWord());
   const [tries, setTries] = useState<string[][]>(Array(ROWS).fill(EMPTY_WORD));
   const [gameState, setGameState] = useState<GameState>('playing');
@@ -27,18 +28,16 @@ const Home = () => {
     })
   }, [rowIndex])
 
-  const onDelete = () => setValue(v => {
-    const newValue = [...v];  
-    const firstEmpty = v.findIndex(letter => letter === '');
+  const onDelete = useCallback(() => setValue(v => {
+    const newValue = [...v];
+    const index = selectedLetter > -1 ? 
+      selectedLetter - (v[selectedLetter] === '' ? 1 : 0) :
+      LETTERS - 1;
 
-    if (firstEmpty <= 0) {
-      newValue[LETTERS - 1] = '';
-      return newValue;
-    }
+    newValue[index] = '';
 
-    newValue[firstEmpty - 1] = '';
     return newValue;
-  });
+  }), [selectedLetter]);
 
   const onConfirm = useCallback(() => {
     const wordOnList = findWord(value.join(''));
@@ -59,20 +58,22 @@ const Home = () => {
     } 
   }, [changeTryValue, correctWord, rowIndex, value]);
 
-  const onAddChar = (key: string) => {
+  const onAddChar = useCallback((key: string) => {
     setValue(v => {
-      let firstEmptyLetter = false;
-      const newValue = v.map((letter) => {
-        if (!letter && !firstEmptyLetter) {
-          firstEmptyLetter = true;
-          return key;
-        }
-        return letter;
-      });
-
+      const newValue = [...v];
+      newValue[selectedLetter] = key;
       return newValue;
     })
-  }
+  }, [selectedLetter])
+
+  const resetGame = () => {
+    setGameState('playing');
+    setTimeout(() => {
+      setCorrectWord(getRandomWord());
+      setTries(Array(ROWS).fill(''));
+      setRowIndex(0);
+    }, 500) 
+  };
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
@@ -99,16 +100,11 @@ const Home = () => {
     return (): void => {
       document.removeEventListener('keydown', onKeyDown);
     };
-  }, [gameState, onConfirm, value.length])
+  }, [gameState, onAddChar, onConfirm, onDelete, value.length]);
 
-  const resetGame = () => {
-    setGameState('playing');
-    setTimeout(() => {
-      setCorrectWord(getRandomWord());
-      setTries(Array(ROWS).fill(''));
-      setRowIndex(0);
-    }, 500) 
-  }
+  useEffect(() => {
+    setSelectedLetter(value.findIndex(letter => letter === ''));
+  }, [value]);
 
   return (
     <S.Container>
@@ -122,7 +118,11 @@ const Home = () => {
                 index === rowIndex ?
                 value : tries[index]
               }
+              selectedLetter={selectedLetter}
               isSelected={index === rowIndex}
+              onClickLetter={(i: number) => {
+                setSelectedLetter(i);
+              }}
               word={correctWord}
               filled={index < rowIndex || (index === rowIndex && gameState !== 'playing')}
             />

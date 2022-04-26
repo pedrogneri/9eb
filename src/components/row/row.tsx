@@ -7,10 +7,12 @@ type Props = {
   word: string;
   input: string[];
   isSelected: boolean;
+  selectedLetter: number;
+  onClickLetter: Function;
   filled?: boolean;
 }
 
-const Row = ({ word, input, isSelected, filled = false }: Props) => {
+const Row = ({ word, input, isSelected, selectedLetter, onClickLetter, filled = false }: Props) => {
   const getLetterState = (index: number): State => {
     const wordLetters = normalizeWord(word).split('');
     const inputLetters = normalizeWord(input.join()).split('');
@@ -64,7 +66,8 @@ const Row = ({ word, input, isSelected, filled = false }: Props) => {
           value={input[index]} 
           isSelected={isSelected}
           state={getLetterState(index)}
-          isPressed={isSelected}
+          onClick={() => onClickLetter(index)}
+          isPressed={isSelected && index === selectedLetter}
         />
       ))}
     </S.Container>
