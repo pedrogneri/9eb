@@ -8,16 +8,18 @@ type Props = {
   isSelected: boolean;
   state?: State;
   className?: string;
+  isPressed?: boolean;
 }
 
 const Letter = ({
-  className, value, isSelected, state = 'default'
+  className, value, isSelected, isPressed = false, state = 'default'
 }: Props) => {
   return (
     <S.Container
       className={className}
       $state={state}
       $isSelected={isSelected}
+      $isPressed={isPressed}
     >
       {value.toUpperCase()}
     </S.Container>

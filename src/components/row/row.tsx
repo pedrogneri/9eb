@@ -5,7 +5,7 @@ import * as S from './row.style';
 
 type Props = {
   word: string;
-  input: string;
+  input: string[];
   isSelected: boolean;
   filled?: boolean;
 }
@@ -13,7 +13,7 @@ type Props = {
 const Row = ({ word, input, isSelected, filled = false }: Props) => {
   const getLetterState = (index: number): State => {
     const wordLetters = normalizeWord(word).split('');
-    const inputLetters = normalizeWord(input).split('');
+    const inputLetters = normalizeWord(input.join()).split('');
 
     const wordChar = wordLetters[index];
     const inputChar = inputLetters[index];
@@ -61,9 +61,10 @@ const Row = ({ word, input, isSelected, filled = false }: Props) => {
       {[...Array(5)].map((_, index) => (
         <S.StyledLetter
           key={index.toString()}
-          value={input[index] || ''} 
+          value={input[index]} 
           isSelected={isSelected}
           state={getLetterState(index)}
+          isPressed={isSelected}
         />
       ))}
     </S.Container>

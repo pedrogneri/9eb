@@ -5,16 +5,16 @@ import * as S from './keyboard.style';
 
 type Props = {
   word: string;
-  tries: string[];
+  tries: string[][];
   onChange: Function;
   onConfirm: Function;
   onDelete: Function;
 }
 
 const entries = [
-  ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
-  ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
-  ['Z', 'X', 'C', 'V', 'B', 'N', 'M']
+  ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
+  ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
+  ['z', 'x', 'c', 'v', 'b', 'n', 'm']
 ];
 
 const Keyboard = ({
@@ -29,7 +29,7 @@ const Keyboard = ({
     const normalizedWord = normalizeWord(word);
 
     tries.forEach((input) => {
-      const normalizedInput = normalizeWord(input);
+      const normalizedInput = normalizeWord(input.join(''));
 
       if (state === 'correct') {
         return;
@@ -55,13 +55,13 @@ const Keyboard = ({
 
   return (
     <S.Container>
-      {entries.map((letters) => (
-        <S.Row>
+      {entries.map((letters, index) => (
+        <S.Row key={index.toString()}>
           {letters.map((letter) => (
-            <div onClick={() => onChange(letter.toLowerCase())}>
+            <div key={letter} onClick={() => onChange(letter)}>
               <S.Key
-                value={letter}
-                state={getLetterState(letter.toLowerCase())}
+                value={letter.toUpperCase()}
+                state={getLetterState(letter)}
                 isSelected={false}
               />
             </div>

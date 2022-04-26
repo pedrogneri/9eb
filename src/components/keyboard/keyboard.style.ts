@@ -20,12 +20,12 @@ export const Key = styled(Letter)`
   margin: 4px;
   cursor: pointer;
 
-  width: 48px;
-  height: 56px;
+  width: 52px;
+  height: 62px;
 
   @media(max-width: 800px) {
-    width: 28px;
-    height: 32px;
+    width: 34px;
+    height: 48px;
     font-size: 20px;
     margin: 2px;
   }
