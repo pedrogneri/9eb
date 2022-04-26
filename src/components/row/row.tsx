@@ -8,7 +8,7 @@ type Props = {
   input: string[];
   isSelected: boolean;
   selectedLetter: number;
-  onClickLetter: Function;
+  onClickLetter?: Function;
   filled?: boolean;
 }
 
@@ -66,7 +66,7 @@ const Row = ({ word, input, isSelected, selectedLetter, onClickLetter, filled = 
           value={input[index]} 
           isSelected={isSelected}
           state={getLetterState(index)}
-          onClick={() => onClickLetter(index)}
+          onClick={() => onClickLetter ? onClickLetter(index) : {}}
           isPressed={isSelected && index === selectedLetter}
         />
       ))}

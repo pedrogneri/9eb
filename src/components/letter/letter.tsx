@@ -21,7 +21,7 @@ const Letter = ({
       $state={state}
       $isSelected={isSelected}
       $isPressed={isPressed}
-      onClick={isSelected ? () => onClick() : undefined}
+      onClick={() => onClick()}
     >
       {value.toUpperCase()}
     </S.Container>

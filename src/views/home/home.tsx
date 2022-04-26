@@ -120,9 +120,11 @@ const Home = () => {
               }
               selectedLetter={selectedLetter}
               isSelected={index === rowIndex}
-              onClickLetter={(i: number) => {
-                setSelectedLetter(i);
-              }}
+              onClickLetter={
+                index === rowIndex ?
+                (i: number) => setSelectedLetter(i) :
+                undefined
+              }
               word={correctWord}
               filled={index < rowIndex || (index === rowIndex && gameState !== 'playing')}
             />
