@@ -103,7 +103,18 @@ const Home = () => {
   }, [gameState, onAddChar, onConfirm, onDelete, value.length]);
 
   useEffect(() => {
-    setSelectedLetter(value.findIndex(letter => letter === ''));
+    setSelectedLetter((prevLetter) => {
+      const isEmptyPredicate = (l: string) => l === '';
+      const firstEmpty = value.findIndex(isEmptyPredicate);
+      const firstEmptyAhead = value.slice(prevLetter).findIndex(isEmptyPredicate);
+      const nextEmpty = firstEmptyAhead === -1 ? -1 : firstEmptyAhead + prevLetter;
+
+      if (nextEmpty !== -1 && nextEmpty !== prevLetter) {
+        return nextEmpty;
+      }
+
+      return firstEmpty;
+    });
   }, [value]);
 
   return (
