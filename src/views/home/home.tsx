@@ -119,6 +119,9 @@ const Home = () => {
 
   return (
     <S.Container>
+      <S.Logo>
+        <h1>9eb.</h1>
+      </S.Logo>
       <S.BoardContainer>
         <S.Board>
           {[...Array(ROWS)].map((_, index) => (

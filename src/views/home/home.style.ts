@@ -66,11 +66,40 @@ export const CorrectWord = styled.div<WordProps>`
   padding: 24px 0;
   font-size: 48px;
   text-transform: uppercase;
-  color: ${({  $gameState }) => $gameState === 'win' ? '#99eebb' : '#e87172'};
+  color: ${({ $gameState }) => $gameState === 'win' ? '#99eebb' : '#e87172'};
 `;
 
 export const Title = styled.div`
   font-size: 28px;
   text-transform: uppercase;
   font-weight: bold;
+`;
+
+export const Logo = styled.div`
+  margin: 2vh 0;
+
+  h1 {
+    font-size: 5vh;
+    color: #99eebb;
+    overflow: hidden;
+    font-family: 'Rubik Mono One', sans-serif;
+    border-right: .15em solid #eee;
+    white-space: nowrap;
+    margin: 0 auto;
+    text-shadow: 5px 5px #88748b;
+    letter-spacing: .10em;
+    animation: 
+    typing 1s steps(4, end),
+    blink-caret .75s step-end infinite;
+  }
+
+  @keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+  }
+
+  @keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: #eee; }
+  }
 `;
