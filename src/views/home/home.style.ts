@@ -15,12 +15,11 @@ export const Board = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  padding: 2em;
+  padding: 1em;
   background-color: #88748b;
   border-radius: 10px;
 
   @media(max-width: 800px) {
-    padding: 12px;
     margin: 0;
   }
 `;
@@ -73,33 +72,4 @@ export const Title = styled.div`
   font-size: 28px;
   text-transform: uppercase;
   font-weight: bold;
-`;
-
-export const Logo = styled.div`
-  margin: 2vh 0;
-
-  h1 {
-    font-size: 5vh;
-    color: #99eebb;
-    overflow: hidden;
-    font-family: 'Rubik Mono One', sans-serif;
-    border-right: .15em solid #eee;
-    white-space: nowrap;
-    margin: 0 auto;
-    text-shadow: 5px 5px #88748b;
-    letter-spacing: .10em;
-    animation: 
-    typing 1s steps(4, end),
-    blink-caret .75s step-end infinite;
-  }
-
-  @keyframes typing {
-    from { width: 0 }
-    to { width: 100% }
-  }
-
-  @keyframes blink-caret {
-    from, to { border-color: transparent }
-    50% { border-color: #eee; }
-  }
 `;

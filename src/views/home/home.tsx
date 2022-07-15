@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Row, Keyboard } from '../../components';
+import { Row, Keyboard, Header } from '../../components';
 import { findWord, getRandomWord } from '../../lib/words';
 
 import * as S from './home.style';
@@ -119,9 +119,7 @@ const Home = () => {
 
   return (
     <S.Container>
-      <S.Logo>
-        <h1>9eb.</h1>
-      </S.Logo>
+      <Header />
       <S.BoardContainer>
         <S.Board>
           {[...Array(ROWS)].map((_, index) => (
