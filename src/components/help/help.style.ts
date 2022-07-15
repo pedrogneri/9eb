@@ -6,8 +6,7 @@ export const Container = styled.div`
   position: absolute;
   background: #88748B;
   padding: 16px 8px;
-  min-width: 400px;
-  max-width: 300px;
+  width: 300px;
   left: 0;
   top: 62px;
   z-index: 3;
@@ -27,8 +26,7 @@ export const Container = styled.div`
 `;
 
 export const Title = styled.div`
-  font-family: 'Rubik Mono One';
-  font-weight: 700;
+  font-weight: bold;
   font-size: 32px;
   line-height: 36px;
   text-align: center;
@@ -37,8 +35,33 @@ export const Title = styled.div`
 
 export const Description = styled.div`
   font-weight: 700;
-  font-size: 28px;
-  line-height: 32px;
+  font-size: 24px;
+  line-height: 28px;
   text-align: center;
+  color: #fff;
+`;
+
+export const ColorTutorial = styled.div`
+  display: flex;
+  align-items: center;
+  margin: 8px;
+`;
+
+interface ColorProp {
+  $color: string;
+}
+
+export const Color = styled.div<ColorProp>`
+  background: ${({ $color }) => $color};
+  border-radius: 8px;
+  min-width: 32px;
+  min-height: 32px;
+  margin-right: 8px;
+`;
+
+export const ColorText = styled.div`
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 24px;
   color: #fff;
 `;

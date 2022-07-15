@@ -10,7 +10,7 @@ const Header = () => {
     <S.Container>
       <S.IconContainer>
         <S.HelpIcon onClick={() => setShowHelp(v => !v)} />
-        <Help show={showHelp}></Help>
+        <Help show={showHelp} onClose={() => setShowHelp(false)}></Help>
       </S.IconContainer>
       <S.Logo>
         <h1>9eb.</h1>
