@@ -1,43 +1,54 @@
+import { IconButton } from '@mui/material';
 import styled from 'styled-components';
 
 export const Container = styled.div`
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
   position: absolute;
-  background: #88748B;
-  padding: 16px 8px;
-  width: 300px;
+  top: 0;
   left: 0;
-  top: 62px;
-  z-index: 3;
-  border-radius: 10px;
+`;
 
-  &::after {
-    content: '';
-    position: absolute;
-    z-index: -1;
-    top: -20px;
-    left: 20px;
-    width: 0;
-    height: 0;
-    border-bottom: 50px solid #88748B;
-    border-right: 50px solid transparent;
+export const Modal = styled.div`
+  display: flex;
+  flex-direction: column;
+  background: #392a43;
+  padding: 16px 8px;
+  max-width: 400px;
+  z-index: 2;
+  border-radius: 10px;
+  position: relative;
+
+  @media(max-width: 800px) {
+    max-width: 90%;
   }
+`;
+
+export const CloseButton = styled(IconButton)`
+  position: absolute !important;
+  z-index: 3;
+  font-size: 28px !important;
+  line-height: 28px !important;
+  right: 0;
+  top: -6px;
+  color: #eee !important;
+  width: fit-content;
 `;
 
 export const Title = styled.div`
   font-weight: bold;
-  font-size: 32px;
-  line-height: 36px;
+  font-size: 36px;
   text-align: center;
   color: #99eebb;
+  margin-bottom: 12px;
 `;
 
 export const Description = styled.div`
-  font-weight: 700;
   font-size: 24px;
-  line-height: 28px;
-  text-align: center;
+  text-align: left;
   color: #fff;
 `;
 
@@ -52,16 +63,21 @@ interface ColorProp {
 }
 
 export const Color = styled.div<ColorProp>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background: ${({ $color }) => $color};
   border-radius: 8px;
   min-width: 32px;
   min-height: 32px;
   margin-right: 8px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #392a43;
 `;
 
 export const ColorText = styled.div`
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 24px;
+  font-size: 20px;
   color: #fff;
+  text-align: left;
 `;

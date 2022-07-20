@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { MdOutlineHelp } from 'react-icons/md';
+import { IconButton } from '@mui/material';
 
 export const Container = styled.header`
   display: grid;
@@ -11,8 +12,8 @@ export const Container = styled.header`
   margin: 2vh 0;
 `;
 
-export const IconContainer = styled.div`
-  position: relative;
+export const IconContainer = styled(IconButton)`
+  width: fit-content;
 `;
 
 export const HelpIcon = styled(MdOutlineHelp)`
