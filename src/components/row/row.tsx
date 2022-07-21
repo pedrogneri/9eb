@@ -1,6 +1,7 @@
 import React from 'react'
 import { normalizeWord } from '../../lib/words';
 import { State } from '../letter/letter';
+import { LETTERS } from '../../constants'
 import * as S from './row.style';
 
 type Props = {
@@ -60,7 +61,7 @@ const Row = ({ word, input, isSelected, selectedLetter, onClickLetter, filled = 
 
   return (
     <S.Container>
-      {[...Array(5)].map((_, index) => (
+      {[...Array(LETTERS)].map((_, index) => (
         <S.StyledLetter
           key={index.toString()}
           value={input[index]} 

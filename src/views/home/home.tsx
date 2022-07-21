@@ -1,18 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Row, Keyboard, Header } from '../../components';
+import { Row, Keyboard, Header, EndGameModal } from '../../components';
 import { findWord, getRandomWord } from '../../lib/words';
+import { LETTERS, GAME_STATE, ROWS } from '../../constants';
 
 import * as S from './home.style';
 
-const ROWS = 6;
-const LETTERS = 5;
 const EMPTY_WORD: string[] = Array(LETTERS).fill('');
-
-export enum GAME_STATE {
-  PLAYING,
-  WIN,
-  LOSE,
-}
 
 const Home = () => {
   const [rowIndex, setRowIndex] = useState(0);
@@ -72,11 +65,9 @@ const Home = () => {
 
   const resetGame = () => {
     setGameState(GAME_STATE.PLAYING);
-    setTimeout(() => {
-      setCorrectWord(getRandomWord());
-      setTries(Array(ROWS).fill(EMPTY_WORD));
-      setRowIndex(0);
-    }, 500) 
+    setCorrectWord(getRandomWord());
+    setTries(Array(ROWS).fill(EMPTY_WORD));
+    setRowIndex(0);
   };
 
   useEffect(() => {
@@ -126,46 +117,46 @@ const Home = () => {
   }, [value]);
 
   return (
-    <S.Container>
-      <Header />
-      <S.BoardContainer>
-        <S.Board>
-          {[...Array(ROWS)].map((_, index) => (
-            <Row
-              key={index.toString()}
-              input={
-                tries[index].lastIndexOf('') === LETTERS - 1 &&
-                index === rowIndex ?
-                value : tries[index]
-              }
-              selectedLetter={selectedLetter}
-              isSelected={index === rowIndex}
-              onClickLetter={
-                index === rowIndex ?
-                (i: number) => setSelectedLetter(i) :
-                undefined
-              }
-              word={correctWord}
-              filled={index < rowIndex || (index === rowIndex && gameState !== GAME_STATE.PLAYING)}
-            />
-          ))}
-        </S.Board>
-      </S.BoardContainer>
-      <Keyboard 
-        word={correctWord} 
-        tries={tries} 
-        onChange={onAddChar}
-        onConfirm={onConfirm}
-        onDelete={onDelete}
-      />
-      <S.Modal
-        open={gameState !== GAME_STATE.PLAYING}
+    <>
+      <S.Container>
+        <Header />
+        <S.BoardContainer>
+          <S.Board>
+            {[...Array(ROWS)].map((_, index) => (
+              <Row
+                key={index.toString()}
+                input={
+                  tries[index].lastIndexOf('') === LETTERS - 1 &&
+                  index === rowIndex ?
+                  value : tries[index]
+                }
+                selectedLetter={selectedLetter}
+                isSelected={index === rowIndex}
+                onClickLetter={
+                  index === rowIndex ?
+                  (i: number) => setSelectedLetter(i) :
+                  undefined
+                }
+                word={correctWord}
+                filled={index < rowIndex || (index === rowIndex && gameState !== GAME_STATE.PLAYING)}
+              />
+            ))}
+          </S.Board>
+        </S.BoardContainer>
+        <Keyboard 
+          word={correctWord} 
+          tries={tries} 
+          onChange={onAddChar}
+          onConfirm={onConfirm}
+          onDelete={onDelete}
+        />
+      </S.Container>
+      <EndGameModal
+        gameState={gameState}
         onClose={resetGame}
-      >
-        <S.Title>{gameState === GAME_STATE.WIN ? 'Você ganhou :)' : 'Você perdeu :('}</S.Title>
-        <S.CorrectWord $gameState={gameState}>{correctWord}</S.CorrectWord>
-      </S.Modal>
-    </S.Container>
+        correctWord={correctWord}
+      />
+   </>
   )
 }
 
