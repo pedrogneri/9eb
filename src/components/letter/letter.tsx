@@ -1,19 +1,18 @@
 import React from 'react'
+import { LETTER_STATE } from '../../constants';
 import * as S from './letter.style';
-
-export type State = 'correct' | 'contain' | 'incorrect' | 'default';
 
 type Props = {
   value: string;
   isSelected: boolean;
-  state?: State;
+  state?: LETTER_STATE;
   className?: string;
   isPressed?: boolean;
   onClick: Function;
 }
 
 const Letter = ({
-  className, value, isSelected, isPressed = false, state = 'default', onClick
+  className, value, isSelected, isPressed = false, state = LETTER_STATE.DEFAULT, onClick
 }: Props) => {
   return (
     <S.Container

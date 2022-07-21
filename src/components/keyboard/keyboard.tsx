@@ -1,6 +1,6 @@
 import React from 'react'
 import { normalizeWord } from '../../lib/words';
-import { State } from '../letter/letter';
+import { LETTER_STATE } from '../../constants';
 import * as S from './keyboard.style';
 
 type Props = {
@@ -25,27 +25,27 @@ const Keyboard = ({
   onDelete,
 }: Props) => {
   const getLetterState = (letter: string) => {
-    let state: State = 'default';
+    let state: LETTER_STATE = LETTER_STATE.DEFAULT;
     const normalizedWord = normalizeWord(word);
 
     tries.forEach((input) => {
       const normalizedInput = normalizeWord(input.join(''));
 
-      if (state === 'correct') {
+      if (state === LETTER_STATE.CORRECT) {
         return;
       }
 
       if (normalizedInput.includes(letter)) {
         if (normalizedWord.includes(letter)) {
-          state = 'contain';
+          state = LETTER_STATE.CONTAIN;
         } else {
-          state = 'incorrect';
+          state = LETTER_STATE.INCORRECT;
         }
       }
 
       normalizedInput.split('').forEach((v, index) => {
         if (v === letter && v === normalizedWord[index]) {
-          state = 'correct'
+          state = LETTER_STATE.CORRECT
         }
       });
     })

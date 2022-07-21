@@ -1,7 +1,6 @@
 import React from 'react'
 import { normalizeWord } from '../../lib/words';
-import { State } from '../letter/letter';
-import { LETTERS } from '../../constants'
+import { BOARD_CONFIG, LETTER_STATE } from '../../constants'
 import * as S from './row.style';
 
 type Props = {
@@ -14,7 +13,7 @@ type Props = {
 }
 
 const Row = ({ word, input, isSelected, selectedLetter, onClickLetter, filled = false }: Props) => {
-  const getLetterState = (index: number): State => {
+  const getLetterState = (index: number): LETTER_STATE => {
     const wordLetters = normalizeWord(word).split('');
     const inputLetters = normalizeWord(input.join('')).split('');
 
@@ -22,11 +21,11 @@ const Row = ({ word, input, isSelected, selectedLetter, onClickLetter, filled = 
     const inputChar = inputLetters[index];
 
     if (isSelected && !filled) {
-      return 'default'
+      return LETTER_STATE.DEFAULT;
     }
 
     if (wordChar === inputChar) {
-      return 'correct';
+      return LETTER_STATE.CORRECT;
     }
 
     if (wordLetters.includes(inputChar)) {
@@ -49,19 +48,19 @@ const Row = ({ word, input, isSelected, selectedLetter, onClickLetter, filled = 
           (correctPositions.length < inputMatches.length && inputMatches.length < wordMatches.length) ||
           (previousRepeat >= wordMatches.length)
         ) {
-          return 'default';
+          return LETTER_STATE.DEFAULT;
         }
       }
 
-      return 'contain';
+      return LETTER_STATE.CONTAIN;
     }
 
-    return 'default'
+    return LETTER_STATE.DEFAULT;
   }
 
   return (
     <S.Container>
-      {[...Array(LETTERS)].map((_, index) => (
+      {[...Array(BOARD_CONFIG.WORD_LENGTH)].map((_, index) => (
         <S.StyledLetter
           key={index.toString()}
           value={input[index]} 

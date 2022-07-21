@@ -8,8 +8,8 @@ const Header = () => {
 
   return (
     <S.Container>
-      <S.IconContainer>
-        <S.HelpIcon onClick={() => setShowHelp(v => !v)} />
+      <S.IconContainer onClick={() => setShowHelp(v => !v)}>
+        <S.HelpIcon />
       </S.IconContainer>
 
       <Help show={showHelp} onClose={() => setShowHelp(false)}></Help>

@@ -1,8 +1,17 @@
 export enum GAME_STATE {
-    PLAYING,
-    WIN,
-    LOSE,
+  PLAYING,
+  WIN,
+  LOSE,
 }
 
-export const ROWS = 6;
-export const LETTERS = 5;
+export enum LETTER_STATE {
+  CORRECT, 
+  CONTAIN,
+  INCORRECT,
+  DEFAULT,
+}
+
+export const BOARD_CONFIG = {
+  WORD_LENGTH: 5,
+  TRIES: 6,
+}

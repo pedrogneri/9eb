@@ -1,11 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { Row, Keyboard, Header, EndGameModal } from '../../components';
 import { findWord, getRandomWord } from '../../lib/words';
-import { LETTERS, GAME_STATE, ROWS } from '../../constants';
+import { BOARD_CONFIG, GAME_STATE } from '../../constants';
 
 import * as S from './home.style';
 
-const EMPTY_WORD: string[] = Array(LETTERS).fill('');
+const EMPTY_WORD: string[] = Array(BOARD_CONFIG.WORD_LENGTH).fill('');
+const EMPTY_TRIES: string[][] = Array(BOARD_CONFIG.TRIES).fill(EMPTY_WORD);
 
 const Home = () => {
   const [rowIndex, setRowIndex] = useState(0);
@@ -13,7 +14,7 @@ const Home = () => {
 
   const [selectedLetter, setSelectedLetter] = useState(0);
   const [correctWord, setCorrectWord] = useState(getRandomWord());
-  const [tries, setTries] = useState<string[][]>(Array(ROWS).fill(EMPTY_WORD));
+  const [tries, setTries] = useState<string[][]>(EMPTY_TRIES);
   const [gameState, setGameState] = useState<GAME_STATE>(GAME_STATE.PLAYING);
 
   const changeTryValue = useCallback((newValue: string) => {
@@ -29,7 +30,7 @@ const Home = () => {
     const newValue = [...v];
     const index = selectedLetter > -1 ? 
       selectedLetter - (v[selectedLetter] === '' ? 1 : 0) :
-      LETTERS - 1;
+      BOARD_CONFIG.WORD_LENGTH - 1;
 
     newValue[index] = '';
 
@@ -41,11 +42,11 @@ const Home = () => {
 
     if (wordOnList) {
       const isCorrect = wordOnList === correctWord;
-      const isEndGame = isCorrect || rowIndex === ROWS - 1;
+      const isEndGame = isCorrect || rowIndex === BOARD_CONFIG.TRIES - 1;
 
       if (isCorrect) {
         setGameState(GAME_STATE.WIN);
-      } else if (rowIndex === ROWS - 1) {
+      } else if (rowIndex === BOARD_CONFIG.TRIES - 1) {
         setGameState(GAME_STATE.LOSE);
       }
 
@@ -66,7 +67,7 @@ const Home = () => {
   const resetGame = () => {
     setGameState(GAME_STATE.PLAYING);
     setCorrectWord(getRandomWord());
-    setTries(Array(ROWS).fill(EMPTY_WORD));
+    setTries(EMPTY_TRIES);
     setRowIndex(0);
   };
 
@@ -84,7 +85,7 @@ const Home = () => {
       const keysActions = {
         Backspace: () => onDelete(),
         Enter: () => onConfirm(),
-        ArrowRight: () => setSelectedLetter((prevLetter) => prevLetter < LETTERS - 1 ? prevLetter + 1 : -1),
+        ArrowRight: () => setSelectedLetter((prevLetter) => prevLetter < BOARD_CONFIG.WORD_LENGTH - 1 ? prevLetter + 1 : -1),
         ArrowLeft: () => setSelectedLetter((prevLetter) => prevLetter > 0 ? prevLetter - 1 : prevLetter),
       }
 
@@ -122,11 +123,11 @@ const Home = () => {
         <Header />
         <S.BoardContainer>
           <S.Board>
-            {[...Array(ROWS)].map((_, index) => (
+            {[...Array(BOARD_CONFIG.TRIES)].map((_, index) => (
               <Row
                 key={index.toString()}
                 input={
-                  tries[index].lastIndexOf('') === LETTERS - 1 &&
+                  tries[index].lastIndexOf('') === BOARD_CONFIG.WORD_LENGTH - 1 &&
                   index === rowIndex ?
                   value : tries[index]
                 }
