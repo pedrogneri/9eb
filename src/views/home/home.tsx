@@ -8,7 +8,11 @@ const ROWS = 6;
 const LETTERS = 5;
 const EMPTY_WORD: string[] = Array(LETTERS).fill('');
 
-export type GameState = 'win' | 'lose' | 'playing';
+export enum GAME_STATE {
+  PLAYING,
+  WIN,
+  LOSE,
+}
 
 const Home = () => {
   const [rowIndex, setRowIndex] = useState(0);
@@ -17,7 +21,7 @@ const Home = () => {
   const [selectedLetter, setSelectedLetter] = useState(0);
   const [correctWord, setCorrectWord] = useState(getRandomWord());
   const [tries, setTries] = useState<string[][]>(Array(ROWS).fill(EMPTY_WORD));
-  const [gameState, setGameState] = useState<GameState>('playing');
+  const [gameState, setGameState] = useState<GAME_STATE>(GAME_STATE.PLAYING);
 
   const changeTryValue = useCallback((newValue: string) => {
     setTries(v => {
@@ -47,9 +51,9 @@ const Home = () => {
       const isEndGame = isCorrect || rowIndex === ROWS - 1;
 
       if (isCorrect) {
-        setGameState('win');
+        setGameState(GAME_STATE.WIN);
       } else if (rowIndex === ROWS - 1) {
-        setGameState('lose');
+        setGameState(GAME_STATE.LOSE);
       }
 
       setValue(EMPTY_WORD);
@@ -67,7 +71,7 @@ const Home = () => {
   }, [selectedLetter])
 
   const resetGame = () => {
-    setGameState('playing');
+    setGameState(GAME_STATE.PLAYING);
     setTimeout(() => {
       setCorrectWord(getRandomWord());
       setTries(Array(ROWS).fill(EMPTY_WORD));
@@ -80,18 +84,22 @@ const Home = () => {
       const { key } = e;
       const isCharKey = key.match("[a-zA-Z]*\\b") && key.length === 1;
 
-      if (gameState !== 'playing') return;
+      if (gameState !== GAME_STATE.PLAYING) return;
 
       if (isCharKey) {
         onAddChar(key);
       }
 
-      if (key === 'Backspace') {
-        onDelete()
+      const keysActions = {
+        Backspace: () => onDelete(),
+        Enter: () => onConfirm(),
+        ArrowRight: () => setSelectedLetter((prevLetter) => prevLetter < LETTERS - 1 ? prevLetter + 1 : -1),
+        ArrowLeft: () => setSelectedLetter((prevLetter) => prevLetter > 0 ? prevLetter - 1 : prevLetter),
       }
 
-      if (key === 'Enter') {
-        onConfirm()
+      const action = (keysActions as any)[key];
+      if (action) {
+        action()
       }
     }
 
@@ -138,7 +146,7 @@ const Home = () => {
                 undefined
               }
               word={correctWord}
-              filled={index < rowIndex || (index === rowIndex && gameState !== 'playing')}
+              filled={index < rowIndex || (index === rowIndex && gameState !== GAME_STATE.PLAYING)}
             />
           ))}
         </S.Board>
@@ -151,10 +159,10 @@ const Home = () => {
         onDelete={onDelete}
       />
       <S.Modal
-        open={gameState !== 'playing'}
+        open={gameState !== GAME_STATE.PLAYING}
         onClose={resetGame}
       >
-        <S.Title>{gameState === 'win' ? 'Você ganhou :)' : 'Você perdeu :('}</S.Title>
+        <S.Title>{gameState === GAME_STATE.WIN ? 'Você ganhou :)' : 'Você perdeu :('}</S.Title>
         <S.CorrectWord $gameState={gameState}>{correctWord}</S.CorrectWord>
       </S.Modal>
     </S.Container>

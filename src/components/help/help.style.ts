@@ -22,7 +22,7 @@ export const Modal = styled.div`
   border-radius: 10px;
   position: relative;
 
-  @media(max-width: 800px) {
+  @media(max-width: 450px) {
     max-width: 90%;
   }
 `;

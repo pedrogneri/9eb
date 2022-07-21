@@ -1,6 +1,6 @@
 import { Dialog } from '@mui/material';
 import styled from 'styled-components';
-import { GameState } from './home';
+import { GAME_STATE } from './home';
 
 export const Container = styled.div`
   display: flex;
@@ -52,7 +52,7 @@ export const Modal = styled(Dialog)`
 `;
 
 type WordProps = {
-  $gameState: GameState;
+  $gameState: GAME_STATE;
 }
 
 export const CorrectWord = styled.div<WordProps>`
@@ -65,7 +65,7 @@ export const CorrectWord = styled.div<WordProps>`
   padding: 24px 0;
   font-size: 48px;
   text-transform: uppercase;
-  color: ${({ $gameState }) => $gameState === 'win' ? '#99eebb' : '#e87172'};
+  color: ${({ $gameState }) => $gameState === GAME_STATE.WIN ? '#99eebb' : '#e87172'};
 `;
 
 export const Title = styled.div`
