@@ -13,11 +13,13 @@ const Home = () => {
   const [value, setValue] = useState<string[]>(EMPTY_WORD);
   const [selectedLetter, setSelectedLetter] = useState(0);
 
-  const correctWord = useStore((state) => state.word)
-  const resetGame = useStore((state) => state.resetGame)
-  const [tries, setTries] = useStore((state) => [state.tries, state.setTries])
-  const [rowIndex, setRowIndex] = useStore((state) => [state.rowIndex, state.setRowIndex])
-  const [gameState, setGameState] = useStore((state) => [state.status, state.setStatus])
+  const correctWord = useStore((state) => state.word);
+  const resetGame = useStore((state) => state.resetGame);
+  const updateRowIndex = useStore((state) => state.updateRowIndex);
+
+  const rowIndex = useStore((state) => state.rowIndex);
+  const [tries, setTries] = useStore((state) => [state.tries, state.setTries]);
+  const [gameState, setGameState] = useStore((state) => [state.status, state.setStatus]);
 
   const triesStates = useMemo(() => getTriesStates(tries, correctWord), [tries, correctWord])
 
@@ -44,7 +46,6 @@ const Home = () => {
 
     if (wordOnList) {
       const isCorrect = wordOnList === correctWord;
-      const isEndGame = isCorrect || rowIndex === BOARD_CONFIG.TRIES - 1;
 
       if (isCorrect) {
         setGameState(GAME_STATE.WIN);
@@ -54,9 +55,9 @@ const Home = () => {
 
       setValue(EMPTY_WORD);
       changeTryValue(wordOnList);
-      setRowIndex(isEndGame ? rowIndex : rowIndex + 1)
+      updateRowIndex();
     } 
-  }, [changeTryValue, correctWord, rowIndex, setGameState, setRowIndex, value]);
+  }, [changeTryValue, correctWord, updateRowIndex, rowIndex, setGameState, value]);
 
   const onAddChar = useCallback((key: string) => {
     setValue(v => {

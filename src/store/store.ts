@@ -12,7 +12,7 @@ type State = {
   status: GAME_STATE,
   tries: string[][],
   rowIndex: number,
-  setRowIndex: Function;
+  updateRowIndex: Function;
   setTries: Function;
   setStatus: Function,
   resetGame: Function;
@@ -25,17 +25,17 @@ export const useStore = create(
       status: GAME_STATE.PLAYING,
       tries: EMPTY_TRIES,
       rowIndex: 0,
-      setRowIndex: (newIndex: number) => set(() => ({ rowIndex: newIndex })),
-      setTries: (newValue: string[][]) => set(() => ({  tries: newValue })),
+      updateRowIndex: () => set((state) => ({ rowIndex: state.status !== GAME_STATE.PLAYING ? state.rowIndex : state.rowIndex + 1 })),
+      setTries: (newValue: string[][]) => set(() => ({ tries: newValue })),
       setStatus: (newValue: GAME_STATE) => set(() => ({ status: newValue })),
       resetGame: () => set(() => ({
-        status: GAME_STATE.PLAYING,
-        word: getRandomWord(),
-        tries: EMPTY_TRIES,
-        rowIndex: 0,
-      }))
+          status: GAME_STATE.PLAYING,
+          word: getRandomWord(),
+          tries: EMPTY_TRIES,
+          rowIndex: 0,
+        }))
     }), {
-      name: 'game-state',
+      name: 'store',
     }
   )
 );
