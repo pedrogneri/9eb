@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Row, Keyboard, Header, EndGameModal } from '../../components';
-import { findWord, getRandomWord } from '../../lib/words';
+import { findWord, getRandomWord, getTriesStates } from '../../lib/words';
 import { BOARD_CONFIG, GAME_STATE } from '../../constants';
 
 import * as S from './home.style';
@@ -16,6 +16,8 @@ const Home = () => {
   const [correctWord, setCorrectWord] = useState(getRandomWord());
   const [tries, setTries] = useState<string[][]>(EMPTY_TRIES);
   const [gameState, setGameState] = useState<GAME_STATE>(GAME_STATE.PLAYING);
+
+  const triesStates = useMemo(() => getTriesStates(tries, correctWord), [tries, correctWord])
 
   const changeTryValue = useCallback((newValue: string) => {
     setTries(v => {
@@ -127,24 +129,18 @@ const Home = () => {
               <Row
                 key={index.toString()}
                 input={
-                  tries[index].lastIndexOf('') === BOARD_CONFIG.WORD_LENGTH - 1 &&
-                  index === rowIndex ?
+                  index === rowIndex && gameState === GAME_STATE.PLAYING ?
                   value : tries[index]
                 }
                 selectedLetter={selectedLetter}
-                isSelected={index === rowIndex}
-                onClickLetter={
-                  index === rowIndex ?
-                  (i: number) => setSelectedLetter(i) :
-                  undefined
-                }
-                word={correctWord}
-                filled={index < rowIndex || (index === rowIndex && gameState !== GAME_STATE.PLAYING)}
+                isSelected={index === rowIndex && gameState === GAME_STATE.PLAYING}
+                onClickLetter={(i: number) => setSelectedLetter(i)}
+                rowState={triesStates[index]}
               />
             ))}
           </S.Board>
         </S.BoardContainer>
-        <Keyboard 
+        <Keyboard
           word={correctWord} 
           tries={tries} 
           onChange={onAddChar}
