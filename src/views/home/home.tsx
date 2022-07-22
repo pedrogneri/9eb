@@ -13,22 +13,16 @@ const Home = () => {
   const [value, setValue] = useState<string[]>(EMPTY_WORD);
   const [selectedLetter, setSelectedLetter] = useState(0);
 
-  const correctWord = useStore((state) => state.word);
-  const resetGame = useStore((state) => state.resetGame);
-  const updateRowIndex = useStore((state) => state.updateRowIndex);
+  const {
+    rowIndex,
+    tries,
+    status,
+    word,
+    resetGame,
+    nextTry,
+  } = useStore((state) => state);
 
-  const rowIndex = useStore((state) => state.rowIndex);
-  const [tries, setTries] = useStore((state) => [state.tries, state.setTries]);
-  const [gameState, setGameState] = useStore((state) => [state.status, state.setStatus]);
-
-  const triesStates = useMemo(() => getTriesStates(tries, correctWord), [tries, correctWord])
-
-  const changeTryValue = useCallback((newValue: string) => {
-    const newTries = [...tries];
-    newTries[rowIndex] = newValue.split('');
-
-    setTries(newTries)
-  }, [rowIndex, setTries, tries])
+  const triesStates = useMemo(() => getTriesStates(tries, word), [tries, word])
 
   const onDelete = useCallback(() => setValue(v => {
     const newValue = [...v];
@@ -45,19 +39,10 @@ const Home = () => {
     const wordOnList = findWord(value.join(''));
 
     if (wordOnList) {
-      const isCorrect = wordOnList === correctWord;
-
-      if (isCorrect) {
-        setGameState(GAME_STATE.WIN);
-      } else if (rowIndex === BOARD_CONFIG.TRIES - 1) {
-        setGameState(GAME_STATE.LOSE);
-      }
-
+      nextTry(wordOnList);
       setValue(EMPTY_WORD);
-      changeTryValue(wordOnList);
-      updateRowIndex();
     } 
-  }, [changeTryValue, correctWord, updateRowIndex, rowIndex, setGameState, value]);
+  }, [nextTry, value]);
 
   const onAddChar = useCallback((key: string) => {
     setValue(v => {
@@ -72,7 +57,7 @@ const Home = () => {
       const { key } = e;
       const isCharKey = key.match("[a-zA-Z]*\\b") && key.length === 1;
 
-      if (gameState !== GAME_STATE.PLAYING) return;
+      if (status !== GAME_STATE.PLAYING) return;
 
       if (isCharKey) {
         onAddChar(key);
@@ -96,7 +81,7 @@ const Home = () => {
     return (): void => {
       document.removeEventListener('keydown', onKeyDown);
     };
-  }, [gameState, onAddChar, onConfirm, onDelete, value.length]);
+  }, [status, onAddChar, onConfirm, onDelete, value.length]);
 
   useEffect(() => {
     setSelectedLetter((prevLetter) => {
@@ -123,11 +108,11 @@ const Home = () => {
               <Row
                 key={index.toString()}
                 input={
-                  index === rowIndex && gameState === GAME_STATE.PLAYING ?
+                  index === rowIndex && status === GAME_STATE.PLAYING ?
                   value : tries[index]
                 }
                 selectedLetter={selectedLetter}
-                isSelected={index === rowIndex && gameState === GAME_STATE.PLAYING}
+                isSelected={index === rowIndex && status === GAME_STATE.PLAYING}
                 onClickLetter={(i: number) => setSelectedLetter(i)}
                 rowState={triesStates[index]}
               />
@@ -135,7 +120,7 @@ const Home = () => {
           </S.Board>
         </S.BoardContainer>
         <Keyboard
-          word={correctWord} 
+          word={word} 
           tries={tries} 
           onChange={onAddChar}
           onConfirm={onConfirm}
@@ -143,9 +128,9 @@ const Home = () => {
         />
       </S.Container>
       <EndGameModal
-        gameState={gameState}
+        gameState={status}
         onClose={resetGame}
-        correctWord={correctWord}
+        correctWord={word}
       />
     </>
   )

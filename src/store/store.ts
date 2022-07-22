@@ -12,10 +12,8 @@ type State = {
   status: GAME_STATE,
   tries: string[][],
   rowIndex: number,
-  updateRowIndex: Function;
-  setTries: Function;
-  setStatus: Function,
   resetGame: Function;
+  nextTry: Function;
 }
 
 export const useStore = create(
@@ -25,15 +23,32 @@ export const useStore = create(
       status: GAME_STATE.PLAYING,
       tries: EMPTY_TRIES,
       rowIndex: 0,
-      updateRowIndex: () => set((state) => ({ rowIndex: state.status !== GAME_STATE.PLAYING ? state.rowIndex : state.rowIndex + 1 })),
-      setTries: (newValue: string[][]) => set(() => ({ tries: newValue })),
-      setStatus: (newValue: GAME_STATE) => set(() => ({ status: newValue })),
       resetGame: () => set(() => ({
-          status: GAME_STATE.PLAYING,
-          word: getRandomWord(),
-          tries: EMPTY_TRIES,
-          rowIndex: 0,
-        }))
+        status: GAME_STATE.PLAYING,
+        word: getRandomWord(),
+        tries: EMPTY_TRIES,
+        rowIndex: 0,
+      })),
+      nextTry: (input: string) => set((state) => {
+        let newState: Partial<State> = {};
+        const isLastTry = state.rowIndex === BOARD_CONFIG.TRIES - 1;
+        const isCorrect = input === state.word;
+
+        if (isCorrect) {
+          newState.status = GAME_STATE.WIN;
+        } else if (isLastTry) {
+          newState.status = GAME_STATE.LOSE;
+        } else {
+          newState.rowIndex = state.rowIndex + 1;
+        }
+
+        const newTries = [...state.tries];
+        const index = newTries.findIndex(v => v.every(v => v === ''));
+        newTries[index] = input.split('');
+        newState.tries = newTries;
+
+        return newState;
+      }),
     }), {
       name: 'store',
     }
