@@ -1,32 +1,32 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { useStore } from '../../store';
+
 import { Row, Keyboard, Header, EndGameModal } from '../../components';
-import { findWord, getRandomWord, getTriesStates } from '../../lib/words';
+import { findWord, getTriesStates } from '../../lib/words';
 import { BOARD_CONFIG, GAME_STATE } from '../../constants';
 
 import * as S from './home.style';
 
 const EMPTY_WORD: string[] = Array(BOARD_CONFIG.WORD_LENGTH).fill('');
-const EMPTY_TRIES: string[][] = Array(BOARD_CONFIG.TRIES).fill(EMPTY_WORD);
 
 const Home = () => {
-  const [rowIndex, setRowIndex] = useState(0);
   const [value, setValue] = useState<string[]>(EMPTY_WORD);
-
   const [selectedLetter, setSelectedLetter] = useState(0);
-  const [correctWord, setCorrectWord] = useState(getRandomWord());
-  const [tries, setTries] = useState<string[][]>(EMPTY_TRIES);
-  const [gameState, setGameState] = useState<GAME_STATE>(GAME_STATE.PLAYING);
+
+  const correctWord = useStore((state) => state.word)
+  const resetGame = useStore((state) => state.resetGame)
+  const [tries, setTries] = useStore((state) => [state.tries, state.setTries])
+  const [rowIndex, setRowIndex] = useStore((state) => [state.rowIndex, state.setRowIndex])
+  const [gameState, setGameState] = useStore((state) => [state.status, state.setStatus])
 
   const triesStates = useMemo(() => getTriesStates(tries, correctWord), [tries, correctWord])
 
   const changeTryValue = useCallback((newValue: string) => {
-    setTries(v => {
-      const newTries = [...v];
-      newTries[rowIndex] = newValue.split('');
+    const newTries = [...tries];
+    newTries[rowIndex] = newValue.split('');
 
-      return newTries;
-    })
-  }, [rowIndex])
+    setTries(newTries)
+  }, [rowIndex, setTries, tries])
 
   const onDelete = useCallback(() => setValue(v => {
     const newValue = [...v];
@@ -54,9 +54,9 @@ const Home = () => {
 
       setValue(EMPTY_WORD);
       changeTryValue(wordOnList);
-      setRowIndex(v => isEndGame ? v : v + 1)
+      setRowIndex(isEndGame ? rowIndex : rowIndex + 1)
     } 
-  }, [changeTryValue, correctWord, rowIndex, value]);
+  }, [changeTryValue, correctWord, rowIndex, setGameState, setRowIndex, value]);
 
   const onAddChar = useCallback((key: string) => {
     setValue(v => {
@@ -65,13 +65,6 @@ const Home = () => {
       return newValue;
     })
   }, [selectedLetter])
-
-  const resetGame = () => {
-    setGameState(GAME_STATE.PLAYING);
-    setCorrectWord(getRandomWord());
-    setTries(EMPTY_TRIES);
-    setRowIndex(0);
-  };
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
@@ -153,7 +146,7 @@ const Home = () => {
         onClose={resetGame}
         correctWord={correctWord}
       />
-   </>
+    </>
   )
 }
 
