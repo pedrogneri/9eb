@@ -27,7 +27,7 @@ export const getTriesStates = (tries: string[][], word: string): LETTER_STATE[][
   const triesStates: LETTER_STATE[][] = tries.map((row) => {
     const inputLetters = normalizeWord(row.join('')).split('');
 
-    return row.map((letter, index) => {
+    return inputLetters.map((letter, index) => {
       const wordChar = wordLetters[index];
 
       if (wordChar === letter) {
