@@ -7,50 +7,39 @@ import { BOARD_CONFIG, GAME_STATE } from '../../constants';
 
 import * as S from './home.style';
 
-const EMPTY_WORD: string[] = Array(BOARD_CONFIG.WORD_LENGTH).fill('');
-
 const Home = () => {
-  const [value, setValue] = useState<string[]>(EMPTY_WORD);
   const [selectedLetter, setSelectedLetter] = useState(0);
 
   const {
     rowIndex,
+    input,
     tries,
     status,
     word,
+  } = useStore((state) => state);
+
+  const {
+    inputValue,
+    deleteValue,
     resetGame,
     nextTry,
   } = useStore((state) => state);
 
   const triesStates = useMemo(() => getTriesStates(tries, word), [tries, word])
 
-  const onDelete = useCallback(() => setValue(v => {
-    const newValue = [...v];
-    const index = selectedLetter > -1 ? 
-      selectedLetter - (v[selectedLetter] === '' ? 1 : 0) :
-      BOARD_CONFIG.WORD_LENGTH - 1;
-
-    newValue[index] = '';
-
-    return newValue;
-  }), [selectedLetter]);
+  const onDelete = useCallback(() => deleteValue(selectedLetter), [deleteValue, selectedLetter]);
 
   const onConfirm = useCallback(() => {
-    const wordOnList = findWord(value.join(''));
+    const wordOnList = findWord(input.join(''));
 
     if (wordOnList) {
       nextTry(wordOnList);
-      setValue(EMPTY_WORD);
     } 
-  }, [nextTry, value]);
+  }, [input, nextTry]);
 
   const onAddChar = useCallback((key: string) => {
-    setValue(v => {
-      const newValue = [...v];
-      newValue[selectedLetter] = key;
-      return newValue;
-    })
-  }, [selectedLetter])
+    inputValue(key, selectedLetter)
+  }, [inputValue, selectedLetter])
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
@@ -81,13 +70,13 @@ const Home = () => {
     return (): void => {
       document.removeEventListener('keydown', onKeyDown);
     };
-  }, [status, onAddChar, onConfirm, onDelete, value.length]);
+  }, [status, onAddChar, onConfirm, onDelete]);
 
   useEffect(() => {
     setSelectedLetter((prevLetter) => {
       const isEmptyPredicate = (l: string) => l === '';
-      const firstEmpty = value.findIndex(isEmptyPredicate);
-      const firstEmptyAhead = value.slice(prevLetter).findIndex(isEmptyPredicate);
+      const firstEmpty = input.findIndex(isEmptyPredicate);
+      const firstEmptyAhead = input.slice(prevLetter).findIndex(isEmptyPredicate);
       const nextEmpty = firstEmptyAhead === -1 ? -1 : firstEmptyAhead + prevLetter;
 
       if (nextEmpty !== -1 && nextEmpty !== prevLetter) {
@@ -96,7 +85,7 @@ const Home = () => {
 
       return firstEmpty;
     });
-  }, [value]);
+  }, [input]);
 
   return (
     <>
@@ -109,7 +98,7 @@ const Home = () => {
                 key={index.toString()}
                 input={
                   index === rowIndex && status === GAME_STATE.PLAYING ?
-                  value : tries[index]
+                  input : tries[index]
                 }
                 selectedLetter={selectedLetter}
                 isSelected={index === rowIndex && status === GAME_STATE.PLAYING}
@@ -120,8 +109,6 @@ const Home = () => {
           </S.Board>
         </S.BoardContainer>
         <Keyboard
-          word={word} 
-          tries={tries} 
           onChange={onAddChar}
           onConfirm={onConfirm}
           onDelete={onDelete}

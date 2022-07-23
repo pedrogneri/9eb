@@ -1,11 +1,11 @@
 import React from 'react'
 import { normalizeWord } from '../../lib/words';
 import { LETTER_STATE } from '../../constants';
+import { useStore } from '../../store';
+
 import * as S from './keyboard.style';
 
 type Props = {
-  word: string;
-  tries: string[][];
   onChange: Function;
   onConfirm: Function;
   onDelete: Function;
@@ -18,12 +18,15 @@ const entries = [
 ];
 
 const Keyboard = ({
-  word,
-  tries,
   onChange,
   onConfirm,
   onDelete,
 }: Props) => {
+  const {
+    tries,
+    word,
+  } = useStore((state) => state);
+
   const getLetterState = (letter: string) => {
     let state: LETTER_STATE = LETTER_STATE.DEFAULT;
     const normalizedWord = normalizeWord(word);
