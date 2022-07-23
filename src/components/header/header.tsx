@@ -7,17 +7,19 @@ const Header = () => {
   const [showHelp, setShowHelp] = useState(false);
 
   return (
-    <S.Container>
-      <S.IconContainer onClick={() => setShowHelp(v => !v)}>
-        <S.HelpIcon />
-      </S.IconContainer>
-
+    <>  
+      <S.Container>
+        <S.IconContainer onClick={() => setShowHelp(v => !v)}>
+          <S.HelpIcon />
+        </S.IconContainer>
+        <S.LogoContainer>
+          <S.Logo>
+            <h1>9eb.</h1>
+          </S.Logo>
+        </S.LogoContainer>
+      </S.Container>
       <Help show={showHelp} onClose={() => setShowHelp(false)}></Help>
-
-      <S.Logo>
-        <h1>9eb.</h1>
-      </S.Logo>
-    </S.Container>
+    </>
   )
 }
 

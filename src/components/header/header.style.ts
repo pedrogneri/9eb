@@ -27,9 +27,14 @@ export const HelpIcon = styled(MdOutlineHelp)`
   }
 `;
 
-export const Logo = styled.div`
+export const LogoContainer = styled.div`
   display: flex;
   justify-content: center;
+  align-items: center;
+`;
+
+export const Logo = styled.div`
+  width: fit-content;
 
   h1 {
     font-size: 5vh;
@@ -41,9 +46,10 @@ export const Logo = styled.div`
     margin: 0 auto;
     text-shadow: 5px 4px #88748b;
     letter-spacing: .10em;
-    animation: 
-    typing 1s steps(4, end),
-    blink-caret .75s step-end infinite;
+    width: fit-content;
+    animation:
+      typing 1s steps(4, end),
+      blink-caret .75s step-end infinite;
   }
 
   @keyframes typing {
