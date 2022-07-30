@@ -1,5 +1,6 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { MdOutlineHelp } from 'react-icons/md';
+import { ImStatsBars } from 'react-icons/im';
 import { IconButton } from '@mui/material';
 
 export const Container = styled.header`
@@ -12,11 +13,16 @@ export const Container = styled.header`
   margin: 2vh 0;
 `;
 
+export const RightContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
+
 export const IconContainer = styled(IconButton)`
   width: fit-content;
 `;
 
-export const HelpIcon = styled(MdOutlineHelp)`
+const icon = css`
   color: #fff;
   width: 44px;
   height: 44px;
@@ -25,6 +31,14 @@ export const HelpIcon = styled(MdOutlineHelp)`
     width: 32px;
     height: 32px;
   }
+`;
+
+export const HelpIcon = styled(MdOutlineHelp)`
+  ${icon}
+`;
+
+export const StatsIcon = styled(ImStatsBars)`
+  ${icon}
 `;
 
 export const LogoContainer = styled.div`

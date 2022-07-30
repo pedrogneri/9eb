@@ -4,3 +4,4 @@ export * from './keyboard';
 export * from './help';
 export * from './header';
 export * from './endGameModal';
+export * from './stats';
