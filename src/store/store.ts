@@ -8,12 +8,19 @@ import { ACTIONS, Actions } from './actions';
 export const EMPTY_WORD: string[] = Array(BOARD_CONFIG.WORD_LENGTH).fill('');
 export const EMPTY_TRIES: string[][] = Array(BOARD_CONFIG.TRIES).fill(EMPTY_WORD);
 
+export interface HistoryRegistry {
+  word: string,
+  tries: number,
+  status: GAME_STATE,
+}
+
 export interface State extends Actions {
   word: string;
   input: string[],
   status: GAME_STATE,
   tries: string[][],
   rowIndex: number,
+  history: HistoryRegistry[],
 }
 
 export const useStore = create(
@@ -24,6 +31,7 @@ export const useStore = create(
       input: EMPTY_WORD,
       tries: EMPTY_TRIES,
       rowIndex: 0,
+      history: [],
       ...ACTIONS(set)
     }), {
       name: 'store',

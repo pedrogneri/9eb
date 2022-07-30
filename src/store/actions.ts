@@ -11,17 +11,24 @@ export interface Actions {
   nextTry: Function;
 }
 
-export const ACTIONS = (set: Setter) => {
-  const resetGame = () => (
-    set((): Partial<State> => ({
+export const ACTIONS = (set: Setter): Actions => ({
+  resetGame: () => (
+    set((state): Partial<State> => ({
       status: GAME_STATE.PLAYING,
       word: getRandomWord(),
       tries: EMPTY_TRIES,
       rowIndex: 0,
+      history: [
+        ...state.history, 
+        {
+          word: state.word,
+          status: state.status,
+          tries: state.rowIndex + 1,
+        }
+      ],
     }))
-  );
-  
-  const nextTry = (input: string) => (
+  ),
+  nextTry: (input: string) => (
     set((state) => {
       let newState: Partial<State> = {};
       const isLastTry = state.rowIndex === BOARD_CONFIG.TRIES - 1;
@@ -43,9 +50,8 @@ export const ACTIONS = (set: Setter) => {
   
       return newState;
     })
-  );
-  
-  const inputValue = (value: string, selectedLetter: number) => (
+  ),
+  inputValue: (value: string, selectedLetter: number) => (
     set((state) => {
       const newValue = [...state.input];
       newValue[selectedLetter] = value;
@@ -54,9 +60,8 @@ export const ACTIONS = (set: Setter) => {
         input: newValue,
       })
     })
-  );
-  
-  const deleteValue = (selectedLetter: number) => (
+  ),
+  deleteValue: (selectedLetter: number) => (
     set((state) => {
       const newValue = [...state.input];
       const index = selectedLetter > -1 ? 
@@ -67,12 +72,5 @@ export const ACTIONS = (set: Setter) => {
   
       return { input: newValue };
     })
-  );
-
-  return {
-    resetGame,
-    nextTry,
-    inputValue,
-    deleteValue,
-  }
-};
+  ),
+});
