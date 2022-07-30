@@ -1,4 +1,5 @@
 import { LETTER_STATE } from "../constants";
+import { HistoryRegistry } from "../store";
 import { WORDS } from "./entries"
 import { WHITE_LIST } from "./whitelist";
 
@@ -11,14 +12,16 @@ export const findWord = (value: string) => wordsArray.find(v => normalizeWord(v)
 
 export const normalizeWord = (value: string) => value.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
 
-export const getRandomWord = (): string => {
+export const getRandomWord = (history: HistoryRegistry[]): string => {
   const randomWord = whiteListArray[getRandomIndex(0, whiteListArray.length - 1)];
+  const isValidWord = wordsArray.find((v) => v === randomWord);
+  const alreadyPlayedWord = history.some(({ word }) => word === randomWord);
 
-  if (wordsArray.find((v) => v === randomWord)) {
+  if (isValidWord && !alreadyPlayedWord) {
     return randomWord;
   } 
 
-  return getRandomWord();
+  return getRandomWord(history);
 }
 
 export const getTriesStates = (tries: string[][], word: string): LETTER_STATE[][] => {

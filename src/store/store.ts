@@ -27,7 +27,7 @@ export const useStore = create(
   persist<State>(
     (set) => ({
       status: GAME_STATE.PLAYING,
-      word: getRandomWord(),
+      word: getRandomWord([]),
       input: EMPTY_WORD,
       tries: EMPTY_TRIES,
       rowIndex: 0,

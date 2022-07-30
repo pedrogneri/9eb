@@ -13,20 +13,24 @@ export interface Actions {
 
 export const ACTIONS = (set: Setter): Actions => ({
   resetGame: () => (
-    set((state): Partial<State> => ({
-      status: GAME_STATE.PLAYING,
-      word: getRandomWord(),
-      tries: EMPTY_TRIES,
-      rowIndex: 0,
-      history: [
+    set((state): Partial<State> => {
+      const newHistory = [
         ...state.history, 
         {
           word: state.word,
           status: state.status,
           tries: state.rowIndex + 1,
         }
-      ],
-    }))
+      ];
+
+      return {
+        status: GAME_STATE.PLAYING,
+        word: getRandomWord(newHistory),
+        tries: EMPTY_TRIES,
+        rowIndex: 0,
+        history: newHistory,
+      }
+    })
   ),
   nextTry: (input: string) => (
     set((state) => {
