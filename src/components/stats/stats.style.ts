@@ -46,11 +46,14 @@ export const BarContainer = styled.div`
   flex-direction: column;
   height: 100%;
   justify-content: flex-end;
+  align-items: center;
 `;
 
 export const TryNumber = styled.div`
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: #eee;
-  padding: .5em;
-  max-height: 1em;
+  padding: .5em 0;
+  line-height: 1em;
 `;
