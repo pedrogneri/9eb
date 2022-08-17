@@ -1,5 +1,5 @@
 import { BOARD_CONFIG, GAME_STATE } from "../constants";
-import { getRandomWord } from "../lib/words";
+import { getRandomWord, normalizeWord } from "../lib/words";
 import { EMPTY_TRIES, EMPTY_WORD, State } from "./store"
 
 type Setter = (partial: State | Partial<State> | ((state: State) => State | Partial<State>), replace?: boolean | undefined) => void;
@@ -36,7 +36,7 @@ export const ACTIONS = (set: Setter): Actions => ({
     set((state) => {
       let newState: Partial<State> = {};
       const isLastTry = state.rowIndex === BOARD_CONFIG.TRIES - 1;
-      const isCorrect = input === state.word;
+      const isCorrect = normalizeWord(input) === normalizeWord(state.word);
   
       if (isCorrect) {
         newState.status = GAME_STATE.WIN;
