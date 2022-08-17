@@ -15,4 +15,3 @@ export const BOARD_CONFIG = {
   WORD_LENGTH: 5,
   TRIES: 6,
 }
-  

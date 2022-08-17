@@ -27,14 +27,14 @@ const PASSPHRASE = process.env.REACT_APP_PASSPHRASE;
 const IS_DEBUG_MODE = process.env.REACT_APP_DEBUG === 'true'
 
 const encrypt= (text: string) => {
-  if (IS_DEBUG_MODE || !PASSPHRASE) {
+  if (!PASSPHRASE) {
     return text;
   }
   return crypto.AES.encrypt(text, PASSPHRASE).toString();
 }
 
 const decrypt = (cipherText: string) => {
-  if (IS_DEBUG_MODE || !PASSPHRASE) {
+  if (!PASSPHRASE) {
     return cipherText;
   }
   const bytes = crypto.AES.decrypt(cipherText, PASSPHRASE);
@@ -54,7 +54,13 @@ export const useStore = create(
     }), {
       name: 'store',
       serialize: (state) => encrypt(JSON.stringify(state)),
-      deserialize: (str) => JSON.parse(decrypt(str)),
+      deserialize: (str) => {
+        const value = JSON.parse(decrypt(str))
+        if (IS_DEBUG_MODE) {
+          console.log(value)
+        }
+        return value;
+      },
     }
   )
 );

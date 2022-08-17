@@ -55,7 +55,7 @@ const Stats = ({ show, onClose }: Props) => {
         <br/>
         <S.PerTryStats>Acertos por tentativa</S.PerTryStats>
         {triesScores.map((value, index) => (
-          <S.BarContainer>
+          <S.BarContainer key={index.toString()}>
             <S.TryNumber>{index === BOARD_CONFIG.TRIES ? "💀" : index + 1}</S.TryNumber>
             <S.Bar $percent={calculatePercent(value)}>{value}</S.Bar>
           </S.BarContainer>
