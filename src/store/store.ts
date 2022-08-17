@@ -1,7 +1,6 @@
 import create from 'zustand'
 import { persist } from 'zustand/middleware'
 import crypto from 'crypto-js'
-
 import { getRandomWord } from '../lib/words';
 import { BOARD_CONFIG, GAME_STATE } from '../constants';
 import { ACTIONS, Actions } from './actions';
@@ -24,10 +23,20 @@ export interface State extends Actions {
   history: HistoryRegistry[],
 }
 
-const PASSPHRASE = 'RNF2Xs5S9pP6H&!ti@Cs@G#KMn3V4Znj'
+const PASSPHRASE = process.env.REACT_APP_PASSPHRASE;
+const IS_DEBUG_MODE = process.env.REACT_APP_DEBUG === 'true'
 
-const encryptWithAES = (text: string) =>  crypto.AES.encrypt(text, PASSPHRASE).toString();
-const decryptWithAES = (cipherText: string) => {
+const encrypt= (text: string) => {
+  if (IS_DEBUG_MODE || !PASSPHRASE) {
+    return text;
+  }
+  return crypto.AES.encrypt(text, PASSPHRASE).toString();
+}
+
+const decrypt = (cipherText: string) => {
+  if (IS_DEBUG_MODE || !PASSPHRASE) {
+    return cipherText;
+  }
   const bytes = crypto.AES.decrypt(cipherText, PASSPHRASE);
   return bytes.toString(crypto.enc.Utf8);
 };
@@ -44,8 +53,8 @@ export const useStore = create(
       ...ACTIONS(set)
     }), {
       name: 'store',
-      serialize: (state) => encryptWithAES(JSON.stringify(state)),
-      deserialize: (str) => JSON.parse(decryptWithAES(str)),
+      serialize: (state) => encrypt(JSON.stringify(state)),
+      deserialize: (str) => JSON.parse(decrypt(str)),
     }
   )
 );
