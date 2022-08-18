@@ -22,36 +22,34 @@ export const getRandomWord = (history: HistoryRegistry[]): string => {
   return getRandomWord(history);
 }
 
-export const getTriesStates = (tries: string[][], word: string): LETTER_STATE[][] => {
-  const wordLetters = normalizeWord(word).split('');
-  const triesStates: LETTER_STATE[][] = [];
+const getWordStates = (row: string[], solution: string) => {
+  const states: LETTER_STATE[] = []
+  const solutionLetters = normalizeWord(solution).split('');
+  const inputLetters = normalizeWord(row.join('')).split('');
 
-  tries.forEach((row, i) => {
-    const inputLetters = normalizeWord(row.join('')).split('');
-    triesStates.push([])
+  inputLetters.forEach((letter, index) => {
+    const correctPosition = solutionLetters[index] === letter;
 
-    inputLetters.forEach((letter, index) => {
-      const correctLetter = wordLetters[index] === letter;
+    if (correctPosition) {
+      states.push(LETTER_STATE.CORRECT);
+      return
+    }
+  
+    if (solutionLetters.includes(letter)) {
+      const letterMatches = solutionLetters.filter((v) => v === letter)
+      const previousContainStates = states.filter((v, i) => v === LETTER_STATE.CONTAIN && row[i] === letter);
+      const correctStates = solutionLetters.filter((v, i) => v === letter && v === inputLetters[i]);
+      const nonDefaultLetters = [...previousContainStates, ...correctStates];
 
-      if (correctLetter) {
-        triesStates[i].push(LETTER_STATE.CORRECT);
+      if (letterMatches.length > nonDefaultLetters.length) {
+        states.push(LETTER_STATE.CONTAIN);
         return
       }
-    
-      if (wordLetters.includes(letter)) {
-        const letterMatches = wordLetters.filter((v) => v === letter)
-        const prevContainStates = triesStates[i].filter((v, i) => v === LETTER_STATE.CONTAIN && row[i] === letter);
-        const correctStates = wordLetters.filter((v, i) => v === letter && v === inputLetters[i]);
+    }
+    states.push(LETTER_STATE.DEFAULT);
+  })
 
-        if (letterMatches.length > (prevContainStates.length + correctStates.length)) {
-          triesStates[i].push(LETTER_STATE.CONTAIN);
-          return
-        }
-      }
-    
-      triesStates[i].push(LETTER_STATE.DEFAULT);
-    })
-  });
-
-  return triesStates;
+  return states;
 }
+
+export const getTriesStates = (tries: string[][], solution: string) => tries.map((row) => getWordStates(row, solution))
