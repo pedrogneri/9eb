@@ -25,7 +25,7 @@ export const Container = styled.div<SelectedProps>`
       align-items: center;
       font-size: 32px;
       background-color: ${color};
-      width: 52px;
+      width: 100%;
       height: 52px;
       border-radius: 8px;
       font-weight: bold;

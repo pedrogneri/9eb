@@ -60,7 +60,7 @@ const Keyboard = ({
 
   return (
     <S.Container>
-      <Grid container md={8} xs={12} spacing={0.5} >
+      <Grid container sm={8} xs={12} spacing={0.5} >
         {entries.map((letters, index) => (
           <Grid key={index.toString()} container item xs={12} justifyContent={"center"} spacing={0.5}>
             {letters.map((letter) => (
@@ -77,13 +77,13 @@ const Keyboard = ({
           </Grid>
         ))}
 
-        <Grid container item xs={12} spacing={0.5} justifyContent={"center"}>
-          <Grid item xs={3} justifyContent="center">
+        <Grid container item sm={12} spacing={0.5} justifyContent={"center"}>
+          <Grid item xs={3.5} justifyContent="center">
             <S.SpecialKey onClick={() => onDelete()}>
               <S.Delete /> 
             </S.SpecialKey>
           </Grid>
-          <Grid item xs={3} justifyContent="center">
+          <Grid item xs={3.5} justifyContent="center">
             <S.SpecialKey onClick={() => onConfirm()}>
               <S.Like />
             </S.SpecialKey>

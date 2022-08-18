@@ -1,5 +1,7 @@
 import React from 'react'
+import { Grid } from '@mui/material';
 import { BOARD_CONFIG, LETTER_STATE } from '../../constants'
+
 import * as S from './row.style';
 
 type Props = {
@@ -12,18 +14,26 @@ type Props = {
 
 const Row = ({ input, isSelected, selectedLetter, onClickLetter, rowState }: Props) => {
   return (
-    <S.Container>
-      {[...Array(BOARD_CONFIG.WORD_LENGTH)].map((_, index) => (
-        <S.StyledLetter
-          key={index.toString()}
-          value={input[index]} 
-          isSelected={isSelected}
-          state={rowState[index]}
-          onClick={() => isSelected ? onClickLetter(index) : {}}
-          isPressed={isSelected && index === selectedLetter}
-        />
-      ))}
-    </S.Container>
+      <Grid
+        container
+        item
+        xs={12}
+        justifyContent={"center"}
+        columnGap={1}
+      >
+        {[...Array(BOARD_CONFIG.WORD_LENGTH)].map((_, index) => (
+          <Grid item xs={2}>
+            <S.StyledLetter
+              key={index.toString()}
+              value={input[index]} 
+              isSelected={isSelected}
+              state={rowState[index]}
+              onClick={() => isSelected ? onClickLetter(index) : {}}
+              isPressed={isSelected && index === selectedLetter}
+            />
+          </Grid>
+        ))}
+    </Grid>
   )
 }
 

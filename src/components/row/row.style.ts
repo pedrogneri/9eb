@@ -8,12 +8,8 @@ export const Container = styled.div`
 `;
 
 export const StyledLetter = styled(Letter)`
-  margin: 4px;
-
   @media(max-width: 800px) {
-    width: 48px;
     height: 48px;
     font-size: 32px;
-    margin: 3px;
   }
 `;

@@ -15,7 +15,7 @@ const Header = () => {
         </S.IconContainer>
         <S.LogoContainer>
           <S.Logo>
-            <h1>9eb.</h1>
+            <h1>9eb</h1>
           </S.Logo>
         </S.LogoContainer>
         <S.RightContainer>

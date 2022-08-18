@@ -59,20 +59,7 @@ export const Logo = styled.div`
     white-space: nowrap;
     margin: 0 auto;
     text-shadow: .2vh .3vh #88748b;
-    letter-spacing: .10em;
+    letter-spacing: .1em;
     width: fit-content;
-    animation:
-      typing 1s steps(4, end),
-      blink-caret .75s ease-out;
-  }
-
-  @keyframes typing {
-    from { width: 0 }
-    to { width: 100% }
-  }
-
-  @keyframes blink-caret {
-    from, to { border-color: #eee }
-    50% { border-color: transparent; }
   }
 `;

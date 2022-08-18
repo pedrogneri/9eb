@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { Grid } from '@mui/material';
 import { useStore } from '../../store';
 
 import { Row, Keyboard, Header, EndGameModal } from '../../components';
@@ -92,7 +93,15 @@ const Home = () => {
       <S.Container>
         <Header />
         <S.BoardContainer>
-          <S.Board>
+          <Grid
+            container
+            sm={4}
+            xs={9.5}
+            rowGap={1}
+            borderRadius={2}
+            padding={2}
+            style={{ background: "#88748b" }}
+          >
             {[...Array(BOARD_CONFIG.TRIES)].map((_, index) => (
               <Row
                 key={index.toString()}
@@ -106,7 +115,7 @@ const Home = () => {
                 rowState={triesStates[index]}
               />
             ))}
-          </S.Board>
+          </Grid>
         </S.BoardContainer>
         <Keyboard
           onChange={onAddChar}
