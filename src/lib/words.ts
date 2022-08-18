@@ -1,7 +1,5 @@
-import { LETTER_STATE } from "../constants";
 import { HistoryRegistry } from "../store";
-import { WORDS } from "./entries"
-import { WHITE_LIST } from "./whitelist";
+import { LETTER_STATE, WORDS, WHITE_LIST } from "../constants"
 
 const wordsArray = WORDS.split(',');
 const whiteListArray = WHITE_LIST.split(',');

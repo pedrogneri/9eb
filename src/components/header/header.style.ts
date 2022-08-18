@@ -55,7 +55,7 @@ export const Logo = styled.div`
     color: #99eebb;
     overflow: hidden;
     font-family: 'Rubik Mono One', sans-serif;
-    border-right: .15em solid #eee;
+    border-right: .15em solid transparent;
     white-space: nowrap;
     margin: 0 auto;
     text-shadow: 5px 4px #88748b;
@@ -63,7 +63,7 @@ export const Logo = styled.div`
     width: fit-content;
     animation:
       typing 1s steps(4, end),
-      blink-caret .75s step-end infinite;
+      blink-caret .75s ease-out;
   }
 
   @keyframes typing {
@@ -72,7 +72,7 @@ export const Logo = styled.div`
   }
 
   @keyframes blink-caret {
-    from, to { border-color: transparent }
-    50% { border-color: #eee; }
+    from, to { border-color: #eee }
+    50% { border-color: transparent; }
   }
 `;
