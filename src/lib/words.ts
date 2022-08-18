@@ -24,45 +24,32 @@ export const getRandomWord = (history: HistoryRegistry[]): string => {
 
 export const getTriesStates = (tries: string[][], word: string): LETTER_STATE[][] => {
   const wordLetters = normalizeWord(word).split('');
+  const triesStates: LETTER_STATE[][] = [];
 
-  const triesStates: LETTER_STATE[][] = tries.map((row) => {
+  tries.forEach((row, i) => {
     const inputLetters = normalizeWord(row.join('')).split('');
+    triesStates.push([])
 
-    return inputLetters.map((letter, index) => {
-      const wordChar = wordLetters[index];
+    inputLetters.forEach((letter, index) => {
+      const correctLetter = wordLetters[index] === letter;
 
-      if (wordChar === letter) {
-        return LETTER_STATE.CORRECT;
+      if (correctLetter) {
+        triesStates[i].push(LETTER_STATE.CORRECT);
+        return
       }
     
       if (wordLetters.includes(letter)) {
-        let previousRepeat = 0;
-    
-        const inputMatches = inputLetters.filter((v, i) => {
-          if (v === letter && i < index) {
-            previousRepeat += 1;
-          }
-          return v === letter
-        });
-    
-        if(inputMatches.length > 1) {
-          const correctPositions = wordLetters.filter(
-            (v, i) => v === inputLetters[i] && v === letter
-          );
-          const wordMatches = wordLetters.filter((v) => v === letter);
-    
-          if (
-            (correctPositions.length < inputMatches.length && inputMatches.length < wordMatches.length) ||
-            (previousRepeat >= wordMatches.length)
-          ) {
-            return LETTER_STATE.DEFAULT;
-          }
+        const letterMatches = wordLetters.filter((v) => v === letter)
+        const prevContainStates = triesStates[i].filter((v, i) => v === LETTER_STATE.CONTAIN && row[i] === letter);
+        const correctStates = wordLetters.filter((v, i) => v === letter && v === inputLetters[i]);
+
+        if (letterMatches.length > (prevContainStates.length + correctStates.length)) {
+          triesStates[i].push(LETTER_STATE.CONTAIN);
+          return
         }
-    
-        return LETTER_STATE.CONTAIN;
       }
     
-      return LETTER_STATE.DEFAULT;
+      triesStates[i].push(LETTER_STATE.DEFAULT);
     })
   });
 
