@@ -58,7 +58,7 @@ export const Logo = styled.div`
     border-right: .15em solid transparent;
     white-space: nowrap;
     margin: 0 auto;
-    text-shadow: 5px 4px #88748b;
+    text-shadow: .2vh .3vh #88748b;
     letter-spacing: .10em;
     width: fit-content;
     animation:
