@@ -1,4 +1,6 @@
 import React from 'react'
+import { Grid } from '@mui/material';
+
 import { normalizeWord } from '../../lib/words';
 import { LETTER_STATE } from '../../constants';
 import { useStore } from '../../store';
@@ -58,27 +60,36 @@ const Keyboard = ({
 
   return (
     <S.Container>
-      {entries.map((letters, index) => (
-        <S.Row key={index.toString()}>
-          {letters.map((letter) => (
-            <S.Key
-              key={letter}
-              onClick={() => onChange(letter)}
-              value={letter.toUpperCase()}
-              state={getLetterState(letter)}
-              isSelected={false}
-            />
-          ))}
-        </S.Row>
-      ))}
-      <S.Row>
-        <S.SpecialKey onClick={() => onDelete()}>
-          <S.Delete /> 
-        </S.SpecialKey>
-        <S.SpecialKey onClick={() => onConfirm()}>
-          <S.Like />
-        </S.SpecialKey>
-      </S.Row>
+      <Grid container md={8} xs={12} spacing={0.5} >
+        {entries.map((letters, index) => (
+          <Grid key={index.toString()} container item xs={12} justifyContent={"center"} spacing={0.5}>
+            {letters.map((letter) => (
+              <Grid item xs={1.2}>
+                <S.Key
+                  key={letter}
+                  onClick={() => onChange(letter)}
+                  value={letter.toUpperCase()}
+                  state={getLetterState(letter)}
+                  isSelected={false}
+                />
+              </Grid>
+            ))}
+          </Grid>
+        ))}
+
+        <Grid container item xs={12} spacing={0.5} justifyContent={"center"}>
+          <Grid item xs={3} justifyContent="center">
+            <S.SpecialKey onClick={() => onDelete()}>
+              <S.Delete /> 
+            </S.SpecialKey>
+          </Grid>
+          <Grid item xs={3} justifyContent="center">
+            <S.SpecialKey onClick={() => onConfirm()}>
+              <S.Like />
+            </S.SpecialKey>
+          </Grid>
+        </Grid>
+      </Grid>
     </S.Container>
   )
 }

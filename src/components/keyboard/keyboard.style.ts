@@ -6,7 +6,7 @@ export const Container = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  padding-bottom: 12px;
+  margin: 1.5vh 1vh;
 `;
 
 export const Row = styled.div`
@@ -17,17 +17,11 @@ export const Row = styled.div`
 `;
 
 export const Key = styled(Letter)`
-  margin: 4px;
   cursor: pointer;
-
-  width: 52px;
-  height: 62px;
+  width: 100%;
 
   @media(max-width: 800px) {
-    width: 34px;
-    height: 48px;
     font-size: 20px;
-    margin: 2px;
   }
 `;
 
@@ -35,18 +29,12 @@ export const SpecialKey = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 180px;
-  height: 52px;
   background-color: #eee;
   border-radius: 8px;
-  margin: 4px;
   cursor: pointer;
 
   @media(max-width: 800px) {
-    width: 100px;
-    height: 32px;
     font-size: 16px;
-    margin: 3px;
   }
 `;
 
