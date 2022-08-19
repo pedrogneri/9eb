@@ -6,7 +6,6 @@ export const Container = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  margin: 1.5vh 1vh;
 `;
 
 export const Row = styled.div`

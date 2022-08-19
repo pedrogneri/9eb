@@ -92,34 +92,26 @@ const Home = () => {
     <>
       <S.Container>
         <Header />
-        <S.BoardContainer>
-          <Grid
-            container
-            xl={3}
-            lg={4}
-            md={5}
-            sm={6}
-            xs={12}
-            rowGap={1}
-            borderRadius={2}
-            padding={2}
-            style={{ background: "#88748b" }}
-          >
-            {[...Array(BOARD_CONFIG.TRIES)].map((_, index) => (
-              <Row
-                key={index.toString()}
-                input={
-                  index === rowIndex && status === GAME_STATE.PLAYING ?
-                  input : tries[index]
-                }
-                selectedLetter={selectedLetter}
-                isSelected={index === rowIndex && status === GAME_STATE.PLAYING}
-                onClickLetter={(i: number) => setSelectedLetter(i)}
-                rowState={triesStates[index]}
-              />
-            ))}
-          </Grid>
-        </S.BoardContainer>
+        <Grid
+          borderRadius={4}
+          padding={1.5}
+          style={{ backgroundColor: "#88748b" }}
+        >
+          {[...Array(BOARD_CONFIG.TRIES)].map((_, index) => (
+            <Row
+              key={index.toString()}
+              input={
+                index === rowIndex && status === GAME_STATE.PLAYING ?
+                input : tries[index]
+              }
+              selectedLetter={selectedLetter}
+              isSelected={index === rowIndex && status === GAME_STATE.PLAYING}
+              onClickLetter={(i: number) => setSelectedLetter(i)}
+              rowState={triesStates[index]}
+            />
+          ))}
+        </Grid>
+
         <Keyboard
           onChange={onAddChar}
           onConfirm={onConfirm}

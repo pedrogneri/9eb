@@ -17,13 +17,11 @@ const Row = ({ input, isSelected, selectedLetter, onClickLetter, rowState }: Pro
       <Grid
         container
         item
-        xs={12}
         justifyContent={"center"}
-        columnGap={1}
         columns={5}
       >
         {[...Array(BOARD_CONFIG.WORD_LENGTH)].map((_, index) => (
-          <Grid item>
+          <Grid item padding={0.5}>
             <S.StyledLetter
               key={index.toString()}
               value={input[index]} 

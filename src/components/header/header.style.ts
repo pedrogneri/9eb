@@ -10,7 +10,6 @@ export const Container = styled.header`
   justify-content: space-between;
   width: 90vw;
   max-width: 700px;
-  margin: 2vh 0;
 `;
 
 export const RightContainer = styled.div`

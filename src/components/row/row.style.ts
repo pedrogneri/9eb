@@ -9,8 +9,8 @@ export const Container = styled.div`
 
 export const StyledLetter = styled(Letter)`
   @media(max-width: 800px) {
-    width: 42px;
-    height: 42px;
+    width: 48px;
+    height: 48px;
     font-size: 32px;
   }
 `;
