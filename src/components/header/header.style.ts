@@ -23,8 +23,8 @@ export const IconContainer = styled(IconButton)`
 
 const icon = css`
   color: #fff;
-  width: 44px;
-  height: 44px;
+  width: 36px;
+  height: 36px;
 
   @media(max-width: 800px) {
     width: 32px;
