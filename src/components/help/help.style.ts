@@ -1,32 +1,6 @@
 import { IconButton } from '@mui/material';
 import styled from 'styled-components';
 
-export const Container = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-`;
-
-export const Modal = styled.div`
-  display: flex;
-  flex-direction: column;
-  background: #392a43;
-  padding: 16px 8px;
-  max-width: 400px;
-  z-index: 2;
-  border-radius: 10px;
-  position: relative;
-
-  @media(max-width: 450px) {
-    max-width: 90%;
-  }
-`;
-
 export const CloseButton = styled(IconButton)`
   position: absolute !important;
   z-index: 3;
@@ -43,19 +17,27 @@ export const Title = styled.div`
   font-size: 36px;
   text-align: center;
   color: #99eebb;
-  margin-bottom: 12px;
+  margin-bottom: .5em;
+
+  @media(max-width: 800px) {
+    font-size: 32px;
+  }
 `;
 
 export const Description = styled.div`
   font-size: 24px;
   text-align: left;
   color: #fff;
+
+  @media(max-width: 800px) {
+    font-size: 20px;
+  }
 `;
 
 export const ColorTutorial = styled.div`
   display: flex;
   align-items: center;
-  margin: 8px;
+  margin: .5em;
 `;
 
 interface ColorProp {
@@ -67,17 +49,31 @@ export const Color = styled.div<ColorProp>`
   justify-content: center;
   align-items: center;
   background: ${({ $color }) => $color};
-  border-radius: 8px;
+  border-radius: 20%;
   min-width: 32px;
   min-height: 32px;
-  margin-right: 8px;
+  margin-right: .5em;
   font-size: 20px;
   font-weight: bold;
   color: #392a43;
+
+  @media(max-width: 800px) {
+    min-width: 28px;
+    min-height: 28px;
+  }
+`;
+
+export const Divisor = styled.div`
+  border: .5px solid #eee;
+  margin: .5em 0;
 `;
 
 export const ColorText = styled.div`
   font-size: 20px;
   color: #fff;
   text-align: left;
+
+  @media(max-width: 800px) {
+    font-size: 16px;
+  }
 `;

@@ -27,7 +27,7 @@ export const Container = styled.div<SelectedProps>`
       background-color: ${color};
       width: 52px;
       height: 52px;
-      border-radius: 8px;
+      border-radius: 20%;
       font-weight: bold;
       border-style: solid;
       color: ${$state === LETTER_STATE.INCORRECT ? 'rgba(57, 42, 67, 0.6)' : '#392a43'};
