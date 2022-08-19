@@ -95,8 +95,11 @@ const Home = () => {
         <S.BoardContainer>
           <Grid
             container
-            sm={4}
-            xs={9.5}
+            xl={3}
+            lg={4}
+            md={5}
+            sm={6}
+            xs={12}
             rowGap={1}
             borderRadius={2}
             padding={2}
