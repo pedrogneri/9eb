@@ -13,4 +13,10 @@ export const StyledLetter = styled(Letter)`
     height: 48px;
     font-size: 32px;
   }
+
+  @media(max-width: 400px) {
+    width: 42px;
+    height: 42px;
+    font-size: 28px;
+  }
 `;

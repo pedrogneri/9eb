@@ -94,7 +94,7 @@ const Home = () => {
         <Header />
         <Grid
           borderRadius={4}
-          padding={1.5}
+          padding={{ xs: 1, sm: 1.5 }}
           style={{ backgroundColor: "#88748b" }}
         >
           {[...Array(BOARD_CONFIG.TRIES)].map((_, index) => (

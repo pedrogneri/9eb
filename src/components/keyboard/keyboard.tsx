@@ -60,9 +60,14 @@ const Keyboard = ({
 
   return (
     <S.Container>
-      <Grid container sm={8} xs={12} spacing={0.5} >
+      <Grid
+        container
+        sm={8}
+        xs={12}
+        spacing={{ xs: 0.5, sm: 0.75 }}
+      >
         {entries.map((letters, index) => (
-          <Grid key={index.toString()} container item xs={12} justifyContent={"center"} spacing={0.5}>
+          <Grid key={index.toString()} container item xs={12} justifyContent={"center"} spacing={{ xs: 0.5, sm: 0.75 }}>
             {letters.map((letter) => (
               <Grid item xs={1.2}>
                 <S.Key
@@ -77,7 +82,7 @@ const Keyboard = ({
           </Grid>
         ))}
 
-        <Grid container item sm={12} spacing={0.5} justifyContent={"center"}>
+        <Grid container item sm={12} spacing={{ xs: 0.5, sm: 0.75 }} justifyContent={"center"}>
           <Grid item xs={3.5} justifyContent="center">
             <S.SpecialKey onClick={() => onDelete()}>
               <S.Delete /> 
