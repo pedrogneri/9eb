@@ -1,5 +1,5 @@
 import React from 'react'
-import { Modal, Box } from '@mui/material';
+import { Modal } from '../modal';
 import * as S from './help.style';
 
 type Props = {
@@ -32,20 +32,8 @@ const Help = ({
   show, onClose,
 }: Props) => {
   return (
-    <Modal open={!!show} onClose={() => onClose()}>
-      <Box
-        sx={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          backgroundColor: "#392a43",
-        }}
-        width={{ xs: "70%", sm: "40%", md: "30%" }}
-        maxWidth={"500px"}
-        borderRadius={4}
-        padding={3}
-      >
+    <Modal show={!!show} onClose={() => onClose()}>
+      <>
         <S.Title>Como jogar</S.Title>
 
         <S.Description>
@@ -60,7 +48,7 @@ const Help = ({
             <S.ColorText><b>{colorName}:</b> {text}</S.ColorText>
           </S.ColorTutorial>
         ))}
-      </Box>
+      </>
     </Modal>
   );
 }

@@ -1,6 +1,8 @@
+import { Grid } from '@mui/material';
 import React, { useMemo } from 'react'
 import { BOARD_CONFIG, GAME_STATE } from '../../constants';
 import { useStore } from '../../store';
+import { Modal } from '../modal';
 import * as S from './stats.style';
 
 type Props = {
@@ -40,28 +42,42 @@ const Stats = ({ show, onClose }: Props) => {
   const calculatePercent = (value: number) => value / history.length * 100;
 
   return (
-    <S.Container
-      open={show}
+    <Modal
+      show={show}
       onClose={() => onClose()}
     >
-      <S.Title>Estatísticas</S.Title>
-      <S.Graph>
-        <S.StatsDataContainer>
+      <Grid
+        container
+        flexDirection={"column"}
+        gap={2}
+      >
+        <S.Title>Estatísticas</S.Title>
+        <Grid 
+          container
+          item
+          columns={3}
+          justifyContent={"space-evenly"}
+        >
           <S.StatsData>Partidas <b>{history.length}</b></S.StatsData>
           <S.StatsData>Acertos <b>{victoryPercentage}%</b></S.StatsData>
           <S.StatsData>Sequência <b>{victorySequency}</b></S.StatsData>
-        </S.StatsDataContainer>
-       
-        <br/>
+        </Grid>
+      
         <S.PerTryStats>Acertos por tentativa</S.PerTryStats>
-        {triesScores.map((value, index) => (
-          <S.BarContainer key={index.toString()}>
-            <S.TryNumber>{index === BOARD_CONFIG.TRIES ? "💀" : index + 1}</S.TryNumber>
-            <S.Bar $percent={calculatePercent(value)}>{value}</S.Bar>
-          </S.BarContainer>
-        ))}
-      </S.Graph>
-    </S.Container>
+        <Grid
+          container
+          item
+          flexDirection={"column"}
+        >
+          {triesScores.map((value, index) => (
+            <S.BarContainer key={index.toString()}>
+              <S.TryNumber>{index === BOARD_CONFIG.TRIES ? "💀" : index + 1}</S.TryNumber>
+              <S.Bar $percent={calculatePercent(value)}>{value}</S.Bar>
+            </S.BarContainer>
+          ))}
+        </Grid>
+      </Grid>
+    </Modal>
   );
 }
 

@@ -1,14 +1,4 @@
 import styled from 'styled-components';
-import { Dialog } from '@mui/material';
-
-export const Container = styled(Dialog)`
-  .MuiDialog-paper {
-    background-color: #392a43;
-    color: #eee;
-    padding: 1em;
-    border-radius: 10px;
-  }
-`;
 
 interface GraphProps {
   $percent: number;

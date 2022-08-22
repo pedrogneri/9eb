@@ -1,15 +1,5 @@
 import styled from 'styled-components';
-import { Dialog } from '@mui/material';
 import { GAME_STATE } from '../../constants';
-
-export const Container = styled(Dialog)`
-  .MuiDialog-paper {
-    background-color: #392a43;
-    color: #eee;
-    padding: 24px;
-    border-radius: 10px;
-  }
-`;
 
 type WordProps = {
   $gameState?: GAME_STATE;

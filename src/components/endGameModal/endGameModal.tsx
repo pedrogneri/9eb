@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { GAME_STATE } from '../../constants';
+import { Modal } from '../modal';
 import * as S from './endGameModal.style';
 
 type Props = {
@@ -20,13 +21,15 @@ const EndGameModal = ({ gameState, onClose, correctWord }: Props) => {
   }, [gameState, correctWord])
 
   return (
-    <S.Container
-      open={gameState !== GAME_STATE.PLAYING}
+    <Modal
+      show={gameState !== GAME_STATE.PLAYING}
       onClose={() => onClose()}
     >
-      <S.Title>{status === GAME_STATE.WIN ? 'Você ganhou :)' : 'Você perdeu :('}</S.Title>
-      <S.CorrectWord $gameState={status}>{word}</S.CorrectWord>
-    </S.Container>
+      <>
+        <S.Title>{status === GAME_STATE.WIN ? 'Você ganhou :)' : 'Você perdeu :('}</S.Title>
+        <S.CorrectWord $gameState={status}>{word}</S.CorrectWord>
+      </>
+    </Modal>
   )
 }
 

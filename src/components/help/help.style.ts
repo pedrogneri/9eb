@@ -14,13 +14,13 @@ export const CloseButton = styled(IconButton)`
 
 export const Title = styled.div`
   font-weight: bold;
-  font-size: 36px;
+  font-size: 32px;
   text-align: center;
   color: #99eebb;
   margin-bottom: .5em;
 
   @media(max-width: 800px) {
-    font-size: 32px;
+    font-size: 28px;
   }
 `;
 
