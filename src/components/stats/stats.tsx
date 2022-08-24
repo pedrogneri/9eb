@@ -41,6 +41,12 @@ const Stats = ({ show, onClose }: Props) => {
 
   const calculatePercent = (value: number) => value / history.length * 100;
 
+  const statsEntries = useMemo(() => ([
+    { name: "Partidas", value: history.length },
+    { name: "Sequência", value: victorySequency },
+    { name: "Acertos", value: `${victoryPercentage}%` },
+  ]), [history.length, victoryPercentage, victorySequency])
+
   return (
     <Modal
       show={show}
@@ -49,31 +55,54 @@ const Stats = ({ show, onClose }: Props) => {
       <Grid
         container
         flexDirection={"column"}
-        gap={2}
+        gap={4}
       >
         <S.Title>Estatísticas</S.Title>
         <Grid 
           container
           item
-          columns={3}
-          justifyContent={"space-evenly"}
         >
-          <S.StatsData>Partidas <b>{history.length}</b></S.StatsData>
-          <S.StatsData>Acertos <b>{victoryPercentage}%</b></S.StatsData>
-          <S.StatsData>Sequência <b>{victorySequency}</b></S.StatsData>
+          {statsEntries.map(({ name, value }, i) => (
+            <Grid
+              key={i.toString()}
+              container
+              item
+              xs={4}
+              justifyContent={"center"}
+              sx={i < statsEntries.length - 1 ? {
+               borderRight: "1px solid #eee",
+              } : {}}
+            >
+              <S.StatsData>
+                {name}
+                <b>{value}</b>
+              </S.StatsData>
+            </Grid>
+          ))}
         </Grid>
       
-        <S.PerTryStats>Acertos por tentativa</S.PerTryStats>
         <Grid
           container
           item
           flexDirection={"column"}
+          gap={1.5}
         >
           {triesScores.map((value, index) => (
-            <S.BarContainer key={index.toString()}>
-              <S.TryNumber>{index === BOARD_CONFIG.TRIES ? "💀" : index + 1}</S.TryNumber>
-              <S.Bar $percent={calculatePercent(value)}>{value}</S.Bar>
-            </S.BarContainer>
+            <Grid
+              container
+              item
+            >
+              <Grid container item xs={1}>
+                <S.TryNumber>
+                  {index === BOARD_CONFIG.TRIES ? "💀" : index + 1}
+                </S.TryNumber>
+              </Grid>   
+              <Grid container item xs={11}>
+                <S.Bar $percent={calculatePercent(value)}>
+                  {value}
+                </S.Bar>
+              </Grid>   
+            </Grid>
           ))}
         </Grid>
       </Grid>

@@ -10,33 +10,6 @@ export const Title = styled.div`
   width: 100%;
   font-size: 28px;
   font-weight: bold;
-  margin-bottom: 12px;
-`;
-
-export const Graph = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 300px;
-`;
-
-export const Bar = styled.div<GraphProps>`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 6px;
-  background-color: #99eebb;
-  width:  ${({ $percent }) => $percent}%;
-  height: 10%;
-  color: #392a43;
-  padding: .25em .5em;
-  font-weight: bold;
-`;
-
-export const BarContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  height: 100%;
-  align-items: center;
 `;
 
 export const StatsData = styled.div`
@@ -46,26 +19,26 @@ export const StatsData = styled.div`
   color: #eee;
   font-weight: bold;
   flex-direction: column;
+  padding: .25em;
 
   b {
-    margin: .1em .5em;
+    margin-top: .25em;
     color: #99eebb;
+  }
+
+  @media (max-width: 800px) {
+    font-size: 1em;
   }
 `;
 
-export const StatsDataContainer = styled.div`
+export const Bar = styled.div<GraphProps>`
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: .5em;
-`;
-
-export const PerTryStats = styled.div`
-  display: flex;
-  align-items: center;
   justify-content: center;
-  font-size: 1.2em;
-  color: #eee;
+  align-items: center;
+  background-color: #99eebb;
+  width: ${({ $percent }) => $percent}%;
+  color: #392a43;
+  padding: .2em .5em;
   font-weight: bold;
 `;
 
@@ -74,7 +47,6 @@ export const TryNumber = styled.div`
   justify-content: center;
   align-items: center;
   color: #eee;
-  padding: .5em 0;
   width: 1em;
   font-weight: bold;
 `;
