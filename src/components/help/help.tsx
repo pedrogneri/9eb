@@ -1,3 +1,4 @@
+import { Grid } from '@mui/material';
 import React from 'react'
 import { Modal } from '../modal';
 import * as S from './help.style';
@@ -33,22 +34,30 @@ const Help = ({
 }: Props) => {
   return (
     <Modal show={!!show} onClose={() => onClose()}>
-      <>
-        <S.Title>Como jogar</S.Title>
+      <Grid container item gap={2}>
+        <Grid container item justifyContent={"center"}>
+          <S.Title>Como jogar</S.Title>
+        </Grid>
 
-        <S.Description>
-          <b>Objetivo:</b> Adivinhar a palavra em até 6 tentativas
+        <Grid container item gap={1}>
+          <S.Description>
+            <b>Objetivo:</b> Adivinhar a palavra em até 6 tentativas
+          </S.Description>
           <S.Divisor />
-          Após cada tentativa as letras mudarão de cor para te dar dicas sobre a resposta:
-        </S.Description>
+          <S.Description>
+            Após cada tentativa as letras mudarão de cor para te dar dicas sobre a resposta:
+          </S.Description>
+        </Grid>
 
-        {COLORS_ENTRIES.map(({ color, colorName, text, letter }, index) => (
-          <S.ColorTutorial key={index.toString()}>
-            <S.Color $color={color}>{letter}</S.Color>
-            <S.ColorText><b>{colorName}:</b> {text}</S.ColorText>
-          </S.ColorTutorial>
-        ))}
-      </>
+        <Grid container item gap={1}>
+          {COLORS_ENTRIES.map(({ color, colorName, text, letter }, index) => (
+            <S.ColorTutorial key={index.toString()}>
+              <S.Color $color={color}>{letter}</S.Color>
+              <S.ColorText><b>{colorName}:</b> {text}</S.ColorText>
+            </S.ColorTutorial>
+          ))}
+        </Grid>
+      </Grid>
     </Modal>
   );
 }

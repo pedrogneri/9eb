@@ -40,6 +40,11 @@ export const Bar = styled.div<GraphProps>`
   color: #392a43;
   padding: .2em .5em;
   font-weight: bold;
+  font-size: 1em;
+
+  @media (max-width: 800px) {
+    padding: 0 .5em;
+  }
 `;
 
 export const TryNumber = styled.div`

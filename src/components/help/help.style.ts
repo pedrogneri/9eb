@@ -1,23 +1,10 @@
-import { IconButton } from '@mui/material';
 import styled from 'styled-components';
-
-export const CloseButton = styled(IconButton)`
-  position: absolute !important;
-  z-index: 3;
-  font-size: 28px !important;
-  line-height: 28px !important;
-  right: 0;
-  top: -6px;
-  color: #eee !important;
-  width: fit-content;
-`;
 
 export const Title = styled.div`
   font-weight: bold;
   font-size: 32px;
   text-align: center;
   color: #99eebb;
-  margin-bottom: .5em;
 
   @media(max-width: 800px) {
     font-size: 28px;
@@ -26,8 +13,7 @@ export const Title = styled.div`
 
 export const Description = styled.div`
   font-size: 24px;
-  text-align: left;
-  color: #fff;
+  color: #eee;
 
   @media(max-width: 800px) {
     font-size: 20px;
@@ -37,7 +23,6 @@ export const Description = styled.div`
 export const ColorTutorial = styled.div`
   display: flex;
   align-items: center;
-  margin: .5em;
 `;
 
 interface ColorProp {
@@ -64,8 +49,8 @@ export const Color = styled.div<ColorProp>`
 `;
 
 export const Divisor = styled.div`
-  border: .5px solid #eee;
-  margin: .5em 0;
+  border: 1px solid #eee;
+  width: 100%;
 `;
 
 export const ColorText = styled.div`
