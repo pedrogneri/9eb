@@ -10,6 +10,7 @@ import * as S from './home.style';
 
 const Home = () => {
   const [selectedLetter, setSelectedLetter] = useState(0);
+  const [incorrectWord, setIncorrectWord] = useState<number | undefined>()
 
   const {
     rowIndex,
@@ -35,8 +36,12 @@ const Home = () => {
 
     if (wordOnList) {
       nextTry(wordOnList);
-    } 
-  }, [input, nextTry]);
+      return
+    }
+
+    setIncorrectWord(rowIndex)
+    setTimeout(() => setIncorrectWord(undefined), 500)
+  }, [input, nextTry, rowIndex]);
 
   const onAddChar = useCallback((key: string) => {
     inputValue(key, selectedLetter)
@@ -100,6 +105,7 @@ const Home = () => {
           {[...Array(BOARD_CONFIG.TRIES)].map((_, index) => (
             <Row
               key={index.toString()}
+              incorrect={incorrectWord === index}
               input={
                 index === rowIndex && status === GAME_STATE.PLAYING ?
                 input : tries[index]

@@ -89,6 +89,7 @@ const Stats = ({ show, onClose }: Props) => {
         >
           {triesScores.map((value, index) => (
             <Grid
+              key={index.toString()}
               container
               item
             >

@@ -8,11 +8,12 @@ type Props = {
   state?: LETTER_STATE;
   className?: string;
   isPressed?: boolean;
+  incorrect?: boolean;
   onClick: Function;
 }
 
 const Letter = ({
-  className, value, isSelected, isPressed = false, state = LETTER_STATE.DEFAULT, onClick
+  className, value, isSelected, isPressed = false, incorrect, state = LETTER_STATE.DEFAULT, onClick
 }: Props) => {
   return (
     <S.Container
@@ -20,6 +21,7 @@ const Letter = ({
       $state={state}
       $isSelected={isSelected}
       $isPressed={isPressed}
+      $incorrect={incorrect}
       onClick={() => onClick()}
     >
       {value.toUpperCase()}

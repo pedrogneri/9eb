@@ -9,29 +9,30 @@ type Props = {
   rowState: LETTER_STATE[];
   isSelected: boolean;
   selectedLetter: number;
+  incorrect: boolean;
   onClickLetter: Function;
 }
 
-const Row = ({ input, isSelected, selectedLetter, onClickLetter, rowState }: Props) => {
+const Row = ({ input, incorrect, isSelected, selectedLetter, onClickLetter, rowState }: Props) => {
   return (
-      <Grid
-        container
-        item
-        justifyContent={"center"}
-        columns={5}
-      >
-        {[...Array(BOARD_CONFIG.WORD_LENGTH)].map((_, index) => (
-          <Grid item padding={0.5}>
-            <S.StyledLetter
-              key={index.toString()}
-              value={input[index]} 
-              isSelected={isSelected}
-              state={rowState[index]}
-              onClick={() => isSelected ? onClickLetter(index) : {}}
-              isPressed={isSelected && index === selectedLetter}
-            />
-          </Grid>
-        ))}
+    <Grid
+      container
+      item
+      justifyContent={"center"}
+      columns={5}
+    >
+      {[...Array(BOARD_CONFIG.WORD_LENGTH)].map((_, index) => (
+        <Grid key={index.toString()} item padding={0.5}>
+          <S.StyledLetter
+            incorrect={incorrect}
+            value={input[index]} 
+            isSelected={isSelected}
+            state={rowState[index]}
+            onClick={() => isSelected ? onClickLetter(index) : {}}
+            isPressed={isSelected && index === selectedLetter}
+          />
+        </Grid>
+      ))}
     </Grid>
   )
 }

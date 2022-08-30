@@ -1,14 +1,24 @@
-import styled, { css, FlattenSimpleInterpolation } from 'styled-components';
+import styled, { keyframes, css, FlattenSimpleInterpolation } from 'styled-components';
 import { LETTER_STATE } from '../../constants';
+import { headShake } from 'react-animations';
 
 type SelectedProps = {
   $isSelected: boolean;
   $isPressed: boolean;
   $state: LETTER_STATE;
+  $incorrect?: boolean
 }
 
+const pulseAnimation = keyframes`
+  0%, 20%, 50%, 80%, 100% {-webkit-transform: translateY(0);} 
+  40% {-webkit-transform: translateY(-14%);} 
+  60% {-webkit-transform: translateY(-7%);}
+`;
+
+const shakeAnimation = keyframes`${headShake}`;
+
 export const Container = styled.div<SelectedProps>`
-  ${({ $isSelected, $state, $isPressed }): FlattenSimpleInterpolation => {
+  ${({ $isSelected, $state, $isPressed, $incorrect }): FlattenSimpleInterpolation => {
     let color = '#eee';
 
     if ($state === LETTER_STATE.CONTAIN) {
@@ -34,6 +44,16 @@ export const Container = styled.div<SelectedProps>`
       border-color: ${$isSelected ? '#392a43' : 'transparent'};
       border-width: ${$isPressed ? '3px 3px 8px 3px' : '3px'};
       box-sizing: border-box;
+
+      ${$isPressed ?
+      css`
+        animation: .2s ${pulseAnimation};
+      ` : ''}
+
+      ${$incorrect ?
+      css`
+        animation: .5s ${shakeAnimation};
+      ` : ''}
     `;
   }}
 `;
