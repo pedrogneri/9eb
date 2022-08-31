@@ -12,7 +12,7 @@ export const CorrectWord = styled.div<WordProps>`
   width: 100%;
   font-weight: bold;
   color: #eee;
-  padding: 24px 0;
+  padding: .2em 0;
   font-size: 48px;
   text-transform: uppercase;
   color: ${({ $gameState }) => $gameState === GAME_STATE.WIN ? '#99eebb' : '#e87172'};

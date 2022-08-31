@@ -1,3 +1,4 @@
+import { Grid } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import { GAME_STATE } from '../../constants';
 import { Modal } from '../modal';
@@ -25,10 +26,17 @@ const EndGameModal = ({ gameState, onClose, correctWord }: Props) => {
       show={gameState !== GAME_STATE.PLAYING}
       onClose={() => onClose()}
     >
-      <>
-        <S.Title>{status === GAME_STATE.WIN ? 'Você ganhou :)' : 'Você perdeu :('}</S.Title>
+      <Grid
+        item
+        container
+        flexDirection={"column"}
+        alignItems={"center"}
+        gap={1}
+      >
+        <S.Title>{status === GAME_STATE.WIN ? 'Você ganhou' : 'Você perdeu'}</S.Title>
+        RESPOSTA CERTA:
         <S.CorrectWord $gameState={status}>{word}</S.CorrectWord>
-      </>
+      </Grid>
     </Modal>
   )
 }
