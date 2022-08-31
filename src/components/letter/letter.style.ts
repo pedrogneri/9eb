@@ -9,6 +9,13 @@ type SelectedProps = {
   $incorrect?: boolean
 }
 
+const STATE_COLORS = {
+  [LETTER_STATE.DEFAULT]: '#eee',
+  [LETTER_STATE.CONTAIN]: '#e9eb87',
+  [LETTER_STATE.CORRECT]: '#99eebb',
+  [LETTER_STATE.INCORRECT]: 'rgba(238, 238, 238, 0.6)',
+}
+
 const pulseAnimation = keyframes`
   0%, 20%, 50%, 80%, 100% {-webkit-transform: translateY(0);} 
   40% {-webkit-transform: translateY(-14%);} 
@@ -19,18 +26,11 @@ const shakeAnimation = keyframes`${headShake}`;
 
 export const Container = styled.div<SelectedProps>`
   ${({ $isSelected, $state, $isPressed, $incorrect }): FlattenSimpleInterpolation => {
-    let color = '#eee';
-
-    if ($state === LETTER_STATE.CONTAIN) {
-      color = '#e9eb87'
-    } else if ($state === LETTER_STATE.CORRECT) {
-      color = '#99eebb'
-    } else if ($state === LETTER_STATE.INCORRECT) {
-      color = 'rgba(238, 238, 238, 0.6)' 
-    }
+    const color = STATE_COLORS[$state]
 
     return css`
       display: flex;
+      position: relative;
       justify-content: center;
       align-items: center;
       font-size: 32px;
@@ -42,7 +42,7 @@ export const Container = styled.div<SelectedProps>`
       border-style: solid;
       color: ${$state === LETTER_STATE.INCORRECT ? 'rgba(57, 42, 67, 0.6)' : '#392a43'};
       border-color: ${$isSelected ? '#392a43' : 'transparent'};
-      border-width: ${$isPressed ? '3px 3px 10px 3px' : '3px'};
+      border-width: 3px;
       box-sizing: border-box;
 
       ${$isPressed ?
@@ -56,8 +56,19 @@ export const Container = styled.div<SelectedProps>`
       ` : ''}
 
       @media (max-width: 800px) {
-        border-width: ${$isPressed ? '2px 2px 8px 2px' : '2px'};
+        border-width: 2px;
       }
+
+      ${$isPressed ? css`
+        &::after {
+          content: "";
+          position: absolute;
+          bottom: 0;
+          height: 6px;
+          width: 100%;
+          background-color: #392a43
+        }
+      ` : ''}
     `;
   }}
 `;
