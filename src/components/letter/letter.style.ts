@@ -42,7 +42,7 @@ export const Container = styled.div<SelectedProps>`
       border-style: solid;
       color: ${$state === LETTER_STATE.INCORRECT ? 'rgba(57, 42, 67, 0.6)' : '#392a43'};
       border-color: ${$isSelected ? '#392a43' : 'transparent'};
-      border-width: ${$isPressed ? '3px 3px 8px 3px' : '3px'};
+      border-width: ${$isPressed ? '3px 3px 10px 3px' : '3px'};
       box-sizing: border-box;
 
       ${$isPressed ?
@@ -54,6 +54,10 @@ export const Container = styled.div<SelectedProps>`
       css`
         animation: .5s ${shakeAnimation};
       ` : ''}
+
+      @media (max-width: 800px) {
+        border-width: ${$isPressed ? '2px 2px 8px 2px' : '2px'};
+      }
     `;
   }}
 `;
