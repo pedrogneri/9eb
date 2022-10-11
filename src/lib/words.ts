@@ -1,23 +1,23 @@
 import { HistoryRegistry } from "../store";
-import { LETTER_STATE, WORDS, WHITE_LIST } from "../constants"
+import words from '../data/words.json'
+import { LETTER_STATE } from "../constants"
 
-const wordsArray = WORDS.split(',');
-const whiteListArray = WHITE_LIST.split(',');
+const {list, whitelist} = words
 
 const getRandomIndex = (min: number, max: number) => Math.trunc(Math.random() * (max - min) + min);
 
-export const findWord = (value: string) => wordsArray.find(v => normalizeWord(v) === value);
+export const findWord = (value: string) => list.find(v => normalizeWord(v) === value);
 
 export const normalizeWord = (value: string) => value.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
 
 export const getRandomWord = (history: HistoryRegistry[]): string => {
-  const randomWord = whiteListArray[getRandomIndex(0, whiteListArray.length - 1)];
-  const isValidWord = wordsArray.find((v) => v === randomWord);
+  const randomWord = whitelist[getRandomIndex(0, whitelist.length - 1)];
+  const isValidWord = list.find((v) => v === randomWord);
   const alreadyPlayedWord = history.some(({ word }) => word === randomWord);
 
   if (isValidWord && !alreadyPlayedWord) {
     return randomWord;
-  } 
+  }
 
   return getRandomWord(history);
 }
