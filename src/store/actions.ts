@@ -7,7 +7,7 @@ type Setter = (
   replace?: boolean | undefined
 ) => void;
 
-export const resetGame = (state: Store): Partial<State> => {
+export const resetGame = (state: Store) => {
   const newHistory = [
     ...state.history,
     {
