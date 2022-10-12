@@ -1,2 +1,2 @@
 # 9eb
-Jogo de adivinhação de palavras baseado no wordle
+Word guessing game based on wordle
