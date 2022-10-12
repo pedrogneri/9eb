@@ -1,37 +1,20 @@
-import create from 'zustand'
-import { persist } from 'zustand/middleware'
-import crypto from 'crypto-js'
-import { getRandomWord } from '../lib/words';
-import { BOARD_CONFIG, GAME_STATE } from '../constants';
-import { ACTIONS, Actions } from './actions';
-
-export const EMPTY_WORD: string[] = Array(BOARD_CONFIG.WORD_LENGTH).fill('');
-export const EMPTY_TRIES: string[][] = Array(BOARD_CONFIG.TRIES).fill(EMPTY_WORD);
-
-export interface HistoryRegistry {
-  word: string,
-  tries: number,
-  status: GAME_STATE,
-}
-
-export interface State extends Actions {
-  word: string;
-  input: string[],
-  status: GAME_STATE,
-  tries: string[][],
-  rowIndex: number,
-  history: HistoryRegistry[],
-}
+import create from "zustand";
+import { persist } from "zustand/middleware";
+import crypto from "crypto-js";
+import { getRandomWord } from "../lib/words";
+import { GAME_STATE } from "../constants";
+import { ACTIONS } from "./actions";
+import { EMPTY_TRIES, EMPTY_WORD, State } from "./interfaces";
 
 const PASSPHRASE = process.env.REACT_APP_PASSPHRASE;
-const IS_DEBUG_MODE = process.env.REACT_APP_DEBUG === 'true'
+const IS_DEBUG_MODE = process.env.REACT_APP_DEBUG === "true";
 
-const encrypt= (text: string) => {
+const encrypt = (text: string) => {
   if (!PASSPHRASE) {
     return text;
   }
   return crypto.AES.encrypt(text, PASSPHRASE).toString();
-}
+};
 
 const decrypt = (cipherText: string) => {
   if (!PASSPHRASE) {
@@ -50,14 +33,15 @@ export const useStore = create(
       tries: EMPTY_TRIES,
       rowIndex: 0,
       history: [],
-      ...ACTIONS(set)
-    }), {
-      name: 'store',
+      ...ACTIONS(set),
+    }),
+    {
+      name: "store",
       serialize: (state) => encrypt(JSON.stringify(state)),
       deserialize: (str) => {
-        const value = JSON.parse(decrypt(str))
+        const value = JSON.parse(decrypt(str));
         if (IS_DEBUG_MODE) {
-          console.log(value)
+          console.log(value);
         }
         return value;
       },
