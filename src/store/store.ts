@@ -6,8 +6,8 @@ import { GAME_STATE } from "../constants";
 import { ACTIONS } from "./actions";
 import { EMPTY_TRIES, EMPTY_WORD, State } from "./interfaces";
 
-const PASSPHRASE = process.env.REACT_APP_PASSPHRASE;
-const IS_DEBUG_MODE = process.env.REACT_APP_DEBUG === "true";
+const PASSPHRASE = import.meta.env.VITE_PASSPHRASE;
+const IS_DEBUG_MODE = import.meta.env.VITE_DEBUG === "true";
 
 const encrypt = (text: string) => {
   if (!PASSPHRASE) {
